@@ -10,6 +10,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 // import profile
 import PoliticianScreen from './components/politicians/PoliticianScreen';
+import PoliticianTabs from './components/politicians/tabs/PoliticianTabs';
 import AchievementScreen from './components/politicians/tabs/achievements/AchievementScreen';
 import ImageModal from './components/politicians/tabs/achievements/ImageModal';
 
@@ -22,6 +23,7 @@ const getTabBarIcon = icon => ({ tintColor }) => (
 const PoliticianStacks = createStackNavigator(
   {
     PoliticianScreen,
+    PoliticianTabs,
     AchievementScreen,
   },
   {

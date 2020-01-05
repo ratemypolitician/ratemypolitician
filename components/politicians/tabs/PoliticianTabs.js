@@ -26,6 +26,9 @@ const PoliticianTabs = createMaterialTopTabNavigator(
       inactiveTintColor: 'grey',
       scrollEnabled: true,
     },
+    navigationOptions: {
+      title: 'Profile'
+    }
   }
 );
 
