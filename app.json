@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "phmeter",
+    "slug": "phmeter",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.phmeter.phmeter"
+    },
+    "android": {
+      "package": "com.phmeter.phmeter"
+    },
+    "description": ""
+  }
+}
