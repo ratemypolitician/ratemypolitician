@@ -12,6 +12,7 @@ import uuidv4 from 'uuid/v4';
 
 import ButtonAction from './ButtonAction';
 import { formatDateTime } from './../../../shared/formatDateTime';
+import { styles } from './Styles';
 
 export default class ReviewCard extends React.Component {
 
@@ -66,41 +67,3 @@ export default class ReviewCard extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  cardContainer: {
-    flexDirection: 'row',
-    padding: 10,
-    margin: 5,
-    marginBottom: 0,
-    backgroundColor: 'white',
-  },
-  cardHeaderContainer: {
-    flexDirection: 'row',
-    paddingBottom: 3,
-  },
-  contentContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingLeft: 10,
-  },
-  avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-  cardNameText: {
-    fontWeight: 'bold',
-    flex: 1,
-  },
-  cardTimeText: {
-    color: 'grey',
-    fontSize: 10,
-  },
-  reviewContent: {
-    paddingVertical: 5,
-  },
-  cardStatusFooter: {
-    flexDirection: 'row',
-  },
-})

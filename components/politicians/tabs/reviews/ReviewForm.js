@@ -12,8 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import ButtonRating from './ButtonRating';
 import ReviewButton from './ReviewButton';
-
-const newUserImage = require('./../../../../assets/users/jedi.png');
+import { styles } from './Styles';
 
 export default class ReviewForm extends React.Component {
 
@@ -69,7 +68,7 @@ export default class ReviewForm extends React.Component {
       <View style={styles.cardContainer}>
           <View style={styles.contentContainer}>
             <TextInput
-              placeholder="Write review about this seller..."
+              placeholder={'Write review about this politician...'}
               value={content}
               style={styles.textInput}
               clearButtonMode="always"
@@ -90,49 +89,3 @@ export default class ReviewForm extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  cardContainer: {
-    flexDirection: 'row',
-    padding: 10,
-    margin: 5,
-    marginBottom: 0,
-    backgroundColor: 'white',
-  },
-  cardHeaderContainer: {
-    flexDirection: 'row',
-    paddingBottom: 3,
-  },
-  contentContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingLeft: 10,
-  },
-  avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-  cardNameText: {
-    fontWeight: 'bold',
-    flex: 1,
-  },
-  cardTimeText: {
-    color: 'grey',
-    fontSize: 10,
-  },
-  cardStatusFooter: {
-    paddingVertical: 5,
-    flexDirection: 'row',
-  },
-  buttonGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  textInput: {
-    height: 100,
-    backgroundColor: 'whitesmoke',
-    borderRadius: 15,
-    paddingHorizontal: 10,
-  },
-})

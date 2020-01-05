@@ -9,26 +9,12 @@ import {
   Button,
   FlatList,
 } from 'react-native';
-import uuidv4 from 'uuid/v4';
 
 import ToggleableReviewForm from './ToggleableReviewForm';
 import EditableReview from './EditableReview';
+import { ratingCalculator, newReview, reviews } from './helpers';
 
-import { AntDesign } from '@expo/vector-icons';
-
-const userImage = require('./../../../../assets/users/jedi.png');
-
-const newReview = (attrs = {}) => {
-  const review = {
-    id: uuidv4(),
-    content: attrs.content || 'Content',
-    ratings: attrs.ratings || 1,
-    username: attrs.username || 'Ali',
-    userImage: attrs.userImage || userImage,
-    created_at: attrs.created_at || (new Date()).getTime(),
-  }
-  return review;
-}
+import { styles } from './Styles';
 
 export default class ReviewsTabComponent extends React.Component {
   state = {
@@ -38,30 +24,7 @@ export default class ReviewsTabComponent extends React.Component {
     currentUser: {},
     overallRating: Number(0).toFixed(1),
 
-    reviews: [
-      {
-        id: uuidv4(),
-        username: 'Ali',
-        userImage: userImage,
-        content: 'Lorem ipsum dolor sit ametLorem ipsum dolor\
-        sit ametLorem ipsum dolor sit ametLorem ipsum dolor\
-        sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit\
-        ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet',
-        ratings: 5,
-        created_at: 1565028374144,
-      },
-      {
-        id: uuidv4(),
-        username: 'Ali',
-        userImage: userImage,
-        content: 'Lorem ipsum dolor sit ametLorem ipsum dolor\
-        sit ametLorem ipsum dolor sit ametLorem ipsum dolor\
-        sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit\
-        ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet',
-        ratings: 2,
-        created_at: 1565028374144,
-      },
-    ],
+    reviews: reviews,
     numberOfReviews: 2,
     starWidth: {
       five: 2,
@@ -74,7 +37,7 @@ export default class ReviewsTabComponent extends React.Component {
 
   componentDidMount(){
     const { reviews } = this.state;
-    const ratingArray = this.ratingCalculator(reviews);
+    const ratingArray = ratingCalculator(reviews);
 
     this.setState({
       starWidth: {
@@ -91,7 +54,7 @@ export default class ReviewsTabComponent extends React.Component {
   handleCreateFormSubmit = review => {
     const { reviews, numberOfReviews } = this.state;
     const latestReviews = [newReview(review), ...reviews];
-    const ratingArray = this.ratingCalculator(latestReviews);
+    const ratingArray = ratingCalculator(latestReviews);
 
     this.setState({
       reviews: latestReviews,
@@ -120,7 +83,7 @@ export default class ReviewsTabComponent extends React.Component {
       }
       return review;
     });
-    const ratingArray = this.ratingCalculator(mapped);
+    const ratingArray = ratingCalculator(mapped);
 
     this.setState({
       reviews: mapped,
@@ -138,7 +101,7 @@ export default class ReviewsTabComponent extends React.Component {
   handleRemovePress = (reviewId) => {
     const { numberOfReviews, reviews } = this.state;
     const filtered = reviews.filter( review => review.id !== reviewId );
-    const ratingArray = this.ratingCalculator(filtered);
+    const ratingArray = ratingCalculator(filtered);
 
     this.setState({
       reviews: filtered,
@@ -152,32 +115,6 @@ export default class ReviewsTabComponent extends React.Component {
       },
       overallRating: ratingArray[0],
     });
-  }
-
-  ratingCalculator = (fetchResult) => {
-    const totalfive = fetchResult.filter(review => review.ratings == 5).length;
-    const totalfour = fetchResult.filter(review => review.ratings == 4).length;
-    const totalthree = fetchResult.filter(review => review.ratings == 3).length;
-    const totaltwo = fetchResult.filter(review => review.ratings == 2).length;
-    const totalone = fetchResult.filter(review => review.ratings == 1).length;
-
-    const weightedfive = totalfive * 5;
-    const weightedfour = totalfour * 4;
-    const weightedthree = totalthree * 3;
-    const weightedtwo = totaltwo * 2;
-    const weightedone = totalone * 1;
-
-    const sumWeighted = weightedfive + weightedfour + weightedthree + weightedtwo + weightedone;
-    const totalReviews = fetchResult.length;
-    const overallRating = (sumWeighted/totalReviews).toFixed(1);
-
-    const fiveStar = ((totalfive/totalReviews)*198) + 2;
-    const fourStar = ((totalfour/totalReviews)*198) + 2;
-    const threeStar = ((totalthree/totalReviews)*198) + 2;
-    const twoStar = ((totaltwo/totalReviews)*198) + 2;
-    const oneStar = ((totalone/totalReviews)*198) + 2;
-
-    return [overallRating, oneStar, twoStar, threeStar, fourStar, fiveStar];
   }
 
   renderItem = ({ item }) => {
@@ -288,30 +225,3 @@ export default class ReviewsTabComponent extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'whitesmoke',
-  },
-  ratingBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  ratingBar: {
-    height: 10,
-    backgroundColor: 'orange',
-    marginLeft: 10,
-    borderRadius: 10,
-  },
-  staticViewContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textReview: {
-    fontSize: 20,
-    padding: 10,
-    color: 'grey',
-  }
-})
