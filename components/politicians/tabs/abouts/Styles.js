@@ -33,6 +33,8 @@ export const styles = StyleSheet.create({
     padding: 10,
     fontWeight: 'bold',
     fontSize: 20,
+    maxWidth: 300,
+    textAlign: 'center',
   },
   status: {
     fontSize: 15,
@@ -52,6 +54,11 @@ export const styles = StyleSheet.create({
   },
   icon: {
     paddingRight: 10,
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
   },
   buttonText: {
     flex: 1,

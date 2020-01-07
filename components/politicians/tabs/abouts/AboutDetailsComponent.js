@@ -10,6 +10,8 @@ import {
 import { styles } from './Styles';
 import { AntDesign } from '@expo/vector-icons';
 import DetailField from './DetailField';
+import { logoProvider } from './helpers';
+
 
 export default class AboutDetailsComponent extends React.Component {
   render() {
@@ -31,8 +33,8 @@ export default class AboutDetailsComponent extends React.Component {
       </View>
 
       <View style={styles.detailsSection}>
-        <DetailField icon={'bars'} value={profile.gabungan} />
-        <DetailField icon={'bars'} value={profile.parti} />
+        <DetailField logo={logoProvider(profile.gabungan)} value={profile.gabungan} />
+        <DetailField logo={logoProvider(profile.parti)} value={profile.parti} />
         <DetailField icon={'bars'} value={profile.parlimen} />
         <DetailField icon={'bars'} value={profile.kawasan} />
         <DetailField icon={'bars'} value={profile.negeri} />
