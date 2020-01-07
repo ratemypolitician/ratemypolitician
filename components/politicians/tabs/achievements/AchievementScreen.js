@@ -18,6 +18,18 @@ import ButtonHeader from './ButtonHeader';
 
 const width = Dimensions.get('window').width;
 
+const badgeStatusColor = (status) => {
+  if (status === 'In Progress') {
+    return 'orange';
+  }else if (status === 'Broken') {
+    return 'red';
+  }else if (status === 'On Hold') {
+    return 'black';
+  }else if (status === 'Completed') {
+    return 'green';
+  }
+}
+
 export default class AchievementScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -98,12 +110,10 @@ export default class AchievementScreen extends React.Component {
         <View style={styles.detailsSection}>
 
             <Text style={styles.title}>{object.title}</Text>
-
-            <View style={styles.cardSubTitle}>
-              <View style={styles.brandSizeContainer}>
-                <Text style={styles.location}>{object.location}</Text>
-                <Text style={styles.status}>{object.status}</Text>
-              </View>
+            <Text style={styles.location}>{object.location}</Text>
+            <View style={[styles.badge,
+              { backgroundColor: badgeStatusColor(object.status) }]}>
+              <Text style={styles.status}>{object.status}</Text>
             </View>
 
             <View style={styles.socialContainer}>
@@ -202,22 +212,21 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
-  cardSubTitle: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  brandSizeContainer: {
-    flex: 1,
-    flexDirection: 'column',
-  },
   location: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'grey',
   },
   status: {
-    paddingVertical: 15,
     fontSize: 15,
+    color: 'white',
+    padding: 5,
+    textAlign: 'center',
+  },
+  badge: {
+    marginTop: 15,
+    maxWidth: 100,
+    borderRadius: 20,
   },
   priceContainer: {
     flex: 1,
