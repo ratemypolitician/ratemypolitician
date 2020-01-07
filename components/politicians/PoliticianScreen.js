@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import PoliticianCard from './PoliticianCard';
-import { fakerProfiles } from './../../data/fakerProfiles';
+import profiles from './../../data/profiles.json';
 
 export default class PoliticianScreen extends React.Component {
   static navigationOptions = {
@@ -26,11 +26,11 @@ export default class PoliticianScreen extends React.Component {
     items: [],
   }
 
-  async componentDidMount(){
-    if (fakerProfiles.length > 0) {
+  componentDidMount(){
+    if (profiles.length > 0) {
       this.setState({
         exists: true,
-        items: fakerProfiles
+        items: profiles
       })
     }
   }

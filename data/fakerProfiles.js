@@ -2,7 +2,7 @@ import uuidv4 from 'uuid/v4';
 
 const userImage = require('./../assets/users/jedi.png');
 
-export const fakerProfiles = [
+export const profiles = [
   {
     id: uuidv4(),
     userImage: userImage,
