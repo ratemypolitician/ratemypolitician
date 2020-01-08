@@ -11,7 +11,7 @@ import { styles } from './Styles';
 import { AntDesign } from '@expo/vector-icons';
 import DetailField from './DetailField';
 import { logoProvider } from './helpers';
-
+import { imageProvider } from './../../../../assets/ahli/index';
 
 export default class AboutDetailsComponent extends React.Component {
   render() {
@@ -24,7 +24,7 @@ export default class AboutDetailsComponent extends React.Component {
       >
 
       <View style={styles.avatarSection}>
-        <Image source={profile.userImage} style={styles.avatar} />
+        <Image source={imageProvider(profile.parlimen)} style={styles.avatar} />
         <Text style={styles.profileName}>
           {profile.nama}
         </Text>

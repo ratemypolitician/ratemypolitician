@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import Ratings from './Ratings';
+import { imageProvider } from './../../assets/ahli/index';
 
 export default class PoliticianCard extends React.Component {
   render() {
@@ -11,7 +12,7 @@ export default class PoliticianCard extends React.Component {
         object: object,
       })}>
       <View style={styles.cardContainer}>
-        <Image source={object.userImage} style={styles.image}/>
+        <Image source={imageProvider(object.parlimen)} style={styles.image}/>
 
         <View style={styles.detailsContainer}>
           <Text style={styles.header}>{object.nama}</Text>

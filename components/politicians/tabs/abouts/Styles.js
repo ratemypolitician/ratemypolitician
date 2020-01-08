@@ -38,6 +38,8 @@ export const styles = StyleSheet.create({
   },
   status: {
     fontSize: 15,
+    maxWidth: 300,
+    textAlign: 'center',
   },
   detailsSection: {
     flex: 1,
