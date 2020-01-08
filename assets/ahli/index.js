@@ -218,6 +218,8 @@ const	P217	=	require('./P217.png');
 const	P218	=	require('./P218.png');
 const	P219	=	require('./P219.png');
 const	P220	=	require('./P220.png');
+const	P221	=	require('./P221.png');
+const	P222	=	require('./P222.png');
 
 export const imageProvider = (name) => {
   switch (name) {
