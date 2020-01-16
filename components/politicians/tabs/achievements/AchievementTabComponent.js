@@ -23,10 +23,13 @@ export default class AchievementTabComponent extends React.Component {
   }
 
   async componentDidMount(){
-    if (fakerAchievements.length > 0) {
+    const politician = this.props.navigation.getParam('object');
+    const filtered = fakerAchievements.filter( ach => ach.userId === politician.id );
+
+    if (filtered.length > 0) {
       this.setState({
         exists: true,
-        items: fakerAchievements
+        items: filtered
       })
     }
   }
@@ -70,7 +73,7 @@ export default class AchievementTabComponent extends React.Component {
 
         {!exists && (
           <View style={styles.staticViewContainer}>
-          <Text>No items yet.</Text>
+          <Text>No achievements yet.</Text>
           </View>
         )}
 

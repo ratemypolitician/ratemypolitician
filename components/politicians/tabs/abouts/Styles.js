@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   avatarSection: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 50,

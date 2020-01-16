@@ -7,14 +7,19 @@ import {
   ActivityIndicator,
   Button,
   FlatList,
+
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 
 import PoliticianCard from './PoliticianCard';
 import profiles from './../../data/profiles.json';
+import { AntDesign } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 
 export default class PoliticianScreen extends React.Component {
   static navigationOptions = {
-    title: 'Politicians'
+    header: null
   }
 
   static router = PoliticianCard.router;
@@ -23,15 +28,73 @@ export default class PoliticianScreen extends React.Component {
     loading: false,
     error: false,
     exists: false,
-    items: [],
+    isSearch: false,
+
+    keywords: '',
+    profiles: [],
+    filteredProfiles: [],
   }
 
   componentDidMount(){
     if (profiles.length > 0) {
       this.setState({
         exists: true,
-        items: profiles
+        profiles,
+        filteredProfiles: profiles
       })
+    }
+  }
+
+  handleSearchPress = () => {
+    this.setState({ isSearch: true });
+  }
+
+  handleCancelPress = () => {
+    this.setState({
+      isSearch: false,
+      filteredProfiles: profiles,
+      keywords: '',
+    });
+  }
+
+  searchFromKeywords = (keywords) => {
+    const { profiles } = this.state;
+    // filter the items
+    const filtered = profiles.filter( profile => {
+      // change everything to toLowerCase
+      let profileName = profile.nama.toLowerCase();
+      let keywordsLowerCase = keywords.toLowerCase();
+
+      // indexOf returns the position of the first occurrence of a specified value in a string
+      // returns -1 if the value to search for never occurs
+      return profileName.indexOf(keywordsLowerCase) > -1; //return true if matched
+    });
+
+    return filtered;
+  }
+
+  handleChangeText = (keywords) => {
+    const filteredProfiles = this.searchFromKeywords(keywords);
+
+    const filteredProfilesName = filteredProfiles.map(
+      (profile) => profile.nama
+    );
+
+    const same = filteredProfilesName.includes(keywords);
+
+    if (same) {
+      this.setState({
+        keywords,
+        filteredProfiles,
+      });
+    } else if (!same) {
+      this.setState({
+        keywords,
+        filteredProfiles,
+        // profiles has not been set, therefore it will grab the initial values
+        // which was declared in the state object above
+        // so every change text in search box will always search the original value of profiles
+      });
     }
   }
 
@@ -40,7 +103,14 @@ export default class PoliticianScreen extends React.Component {
   )
 
   render() {
-    const { loading, error, exists, items } = this.state;
+    const {
+      loading,
+      error,
+      exists,
+      isSearch,
+
+      keywords,
+      filteredProfiles } = this.state;
 
     return (
       <View style={styles.container}>
@@ -65,11 +135,42 @@ export default class PoliticianScreen extends React.Component {
       {!loading && (
         <View style={styles.container}>
         {exists && (
+          <View>
+
+          {isSearch && (
+            <View style={styles.searchContainer}>
+              <TextInput
+                autoFocus={true}
+                value={keywords}
+                placeholder={'Search politician...'}
+                underlineColorAndroid={'transparent'}
+                onChangeText={this.handleChangeText}
+                style={styles.textInput}
+              />
+              <TouchableOpacity style={styles.searchIcon} onPress={this.handleCancelPress}>
+                <AntDesign name={'close'} size={25} />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {!isSearch && (
+            <View style={styles.searchContainer}>
+              <View>
+                <Text style={styles.searchHeader}>Rate Your Politician</Text>
+              </View>
+              <TouchableOpacity style={styles.searchIcon} onPress={this.handleSearchPress}>
+                <AntDesign name={'search1'} size={25} />
+              </TouchableOpacity>
+            </View>
+          )}
+
+
           <FlatList
-            data={items}
+            data={filteredProfiles}
             keyExtractor={item => item.id.toString()}
             renderItem={this.renderItem}
           />
+          </View>
         )}
 
         {!exists && (
@@ -94,5 +195,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  searchContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: Constants.statusBarHeight + 20,
+    paddingBottom: 40,
+    paddingHorizontal: 20,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'grey',
+    backgroundColor: 'white',
+  },
+  searchHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  searchIcon: {
+    position: 'absolute',
+    paddingTop: Constants.statusBarHeight + 20,
+    right: 20
+  },
+  textInput: {
+    position: 'absolute',
+    paddingTop: Constants.statusBarHeight + 20,
+    left: 20
   }
 })
