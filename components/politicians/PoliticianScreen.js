@@ -110,6 +110,10 @@ export default class PoliticianScreen extends React.Component {
       keywords,
       filteredProfiles } = this.state;
 
+    const BottomPadding = () => (
+      <View style={{ paddingBottom: 100 }} />
+    )
+
     return (
       <View style={styles.container}>
       {loading && (
@@ -167,6 +171,7 @@ export default class PoliticianScreen extends React.Component {
             data={filteredProfiles}
             keyExtractor={item => item.id.toString()}
             renderItem={this.renderItem}
+            ListFooterComponent={BottomPadding}
           />
           </View>
         )}
