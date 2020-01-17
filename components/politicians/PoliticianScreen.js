@@ -1,13 +1,11 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   ScrollView,
   ActivityIndicator,
   Button,
   FlatList,
-
   TextInput,
   TouchableOpacity,
 } from 'react-native';
@@ -15,7 +13,7 @@ import {
 import PoliticianCard from './PoliticianCard';
 import profiles from './../../data/profiles.json';
 import { AntDesign } from '@expo/vector-icons';
-import Constants from 'expo-constants';
+import { styles } from './Styles';
 
 export default class PoliticianScreen extends React.Component {
   static navigationOptions = {
@@ -185,40 +183,3 @@ export default class PoliticianScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'whitesmoke',
-  },
-  staticViewContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  searchContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: Constants.statusBarHeight + 20,
-    paddingBottom: 40,
-    paddingHorizontal: 20,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'grey',
-    backgroundColor: 'white',
-  },
-  searchHeader: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  searchIcon: {
-    position: 'absolute',
-    paddingTop: Constants.statusBarHeight + 20,
-    right: 20
-  },
-  textInput: {
-    position: 'absolute',
-    paddingTop: Constants.statusBarHeight + 20,
-    left: 20
-  }
-})
