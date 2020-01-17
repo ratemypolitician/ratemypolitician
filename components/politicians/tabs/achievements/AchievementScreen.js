@@ -10,8 +10,9 @@ import {
   ActionSheetIOS,
   FlatList,
   Dimensions,
+  Platform,
 } from 'react-native';
-
+import ActionSheet from 'react-native-actionsheet';
 import { AntDesign } from '@expo/vector-icons';
 import store from './../../../../store';
 import ButtonHeader from './ButtonHeader';
@@ -68,7 +69,9 @@ export default class AchievementScreen extends React.Component {
   handleShare = () => {
     var url = 'http://www.google.com';
     var options = { url : url };
-    ActionSheetIOS.showShareActionSheetWithOptions(options, this.shareFailure, this.shareSuccess);
+    Platform.OS === 'ios'
+      ? ActionSheetIOS.showShareActionSheetWithOptions(options, this.shareFailure, this.shareSuccess)
+      : this.ActionSheet.show()
   }
 
   renderCarouselImages = ({ item }) =>
@@ -132,6 +135,35 @@ export default class AchievementScreen extends React.Component {
               <Text style={styles.favoritesText}>{object.shared}</Text>
             </TouchableOpacity>
 
+            <ActionSheet
+              ref={o => this.ActionSheet = o}
+              title={'Share Link'}
+              options={[
+                'Cancel',
+                'Whatsapp',
+                'Facebook',
+                'Twitter',
+                'Instagram',
+                'More...',
+              ]}
+              cancelButtonIndex={0}
+              onPress={
+                (buttonIndex) => {
+                  if (buttonIndex === 1) {
+
+                  } else if (buttonIndex === 2) {
+
+                  } else if (buttonIndex === 3) {
+
+                  } else if (buttonIndex === 4) {
+
+                  } else if (buttonIndex === 5) {
+
+                  }
+                }
+              }
+            />
+
             </View>
 
             <View style={styles.captionContainer}>
@@ -155,7 +187,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'grey',
     color: 'white',
-    borderRadius: 10,
     zIndex: 1,
   },
   socialContainer: {

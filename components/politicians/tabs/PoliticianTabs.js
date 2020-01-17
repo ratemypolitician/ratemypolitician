@@ -27,7 +27,7 @@ const PoliticianTabs = createMaterialTopTabNavigator(
       scrollEnabled: true,
     },
     navigationOptions: {
-      title: 'Profile'
+      title: 'Politician Profile'
     }
   }
 );

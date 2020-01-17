@@ -44,7 +44,7 @@ export default class DetailField extends React.Component {
           positionValue={0}
           fadeInDuration={750}
           fadeOutDuration={1000}
-          opacity={0.6}
+          opacity={0.8}
         />
       </TouchableOpacity>
     );

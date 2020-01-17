@@ -25,6 +25,7 @@ export const styles = StyleSheet.create({
   searchHeader: {
     fontSize: 18,
     fontWeight: 'bold',
+    position: 'absolute',
   },
   searchIcon: {
     position: 'absolute',
