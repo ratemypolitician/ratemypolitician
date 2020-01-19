@@ -2,6 +2,37 @@ import Constants from 'expo-constants';
 import { StyleSheet, Platform } from 'react-native';
 
 export const styles = StyleSheet.create({
+  // PoliticianCard
+  cardContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    borderColor: 'grey',
+    backgroundColor: 'white',
+    marginVertical :5,
+  },
+  detailsContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  subheader: {
+    fontSize: 13,
+    color: 'grey',
+  },
+  subtitle: {
+    fontSize: 14,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginLeft: 15,
+    marginVertical: 10,
+  },
+
   container: {
     flex: 1,
     backgroundColor: 'whitesmoke',

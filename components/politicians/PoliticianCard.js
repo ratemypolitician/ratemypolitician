@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import Ratings from './Ratings';
 import { imageProvider } from './../../assets/ahli/index';
+import { styles } from './Styles';
 
 export default class PoliticianCard extends React.Component {
   render() {
@@ -28,35 +29,3 @@ export default class PoliticianCard extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    borderColor: 'grey',
-    backgroundColor: 'white',
-    marginVertical :5,
-  },
-  detailsContainer: {
-    flex: 1,
-    padding: 20,
-  },
-  header: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  subheader: {
-    fontSize: 13,
-    color: 'grey',
-  },
-  subtitle: {
-    fontSize: 14,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    marginLeft: 15,
-    marginVertical: 10,
-  },
-})

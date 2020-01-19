@@ -1,5 +1,7 @@
+import React from 'react';
 import uuidv4 from 'uuid/v4';
 import { fakerReviews } from './../../../../data/fakerReviews';
+
 export const reviews = fakerReviews;
 
 const userImage = require('./../../../../assets/users/jedi.png');

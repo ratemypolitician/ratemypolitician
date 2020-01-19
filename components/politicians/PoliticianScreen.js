@@ -61,11 +61,24 @@ export default class PoliticianScreen extends React.Component {
     const filtered = profiles.filter( profile => {
       // change everything to toLowerCase
       let profileName = profile.nama.toLowerCase();
+      let profileParlimen = profile.parlimen.toLowerCase();
+      let profileKawasan = profile.kawasan.toLowerCase();
+      let profileGabungan = profile.gabungan.toLowerCase();
+      let profileParti = profile.parti.toLowerCase();
+      let profileNegeri = profile.negeri.toLowerCase();
+
       let keywordsLowerCase = keywords.toLowerCase();
 
       // indexOf returns the position of the first occurrence of a specified value in a string
       // returns -1 if the value to search for never occurs
-      return profileName.indexOf(keywordsLowerCase) > -1; //return true if matched
+
+      //return true if matched
+      return profileName.indexOf(keywordsLowerCase) > -1
+      || profileParlimen.indexOf(keywordsLowerCase) > -1
+      || profileKawasan.indexOf(keywordsLowerCase) > -1
+      || profileGabungan.indexOf(keywordsLowerCase) > -1
+      || profileParti.indexOf(keywordsLowerCase) > -1
+      || profileNegeri.indexOf(keywordsLowerCase) > -1
     });
 
     return filtered;
@@ -78,22 +91,10 @@ export default class PoliticianScreen extends React.Component {
       (profile) => profile.nama
     );
 
-    const same = filteredProfilesName.includes(keywords);
-
-    if (same) {
-      this.setState({
-        keywords,
-        filteredProfiles,
-      });
-    } else if (!same) {
-      this.setState({
-        keywords,
-        filteredProfiles,
-        // profiles has not been set, therefore it will grab the initial values
-        // which was declared in the state object above
-        // so every change text in search box will always search the original value of profiles
-      });
-    }
+    this.setState({
+      keywords,
+      filteredProfiles,
+    });
   }
 
   renderItem = ({ item }) => (

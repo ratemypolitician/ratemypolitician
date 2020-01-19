@@ -7,25 +7,14 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import uuidv4 from 'uuid/v4';
 
 import ButtonAction from './ButtonAction';
+import Ratings from './../../Ratings';
 import { formatDateTime } from './../../../shared/formatDateTime';
 import { styles } from './Styles';
+import { ratingStarGenerator } from './helpers';
 
 export default class ReviewCard extends React.Component {
-
-  ratingStarGenerator = () => {
-    const starContainer = [];
-    for (var i = 0; i < this.props.ratings; i++) {
-      starContainer.push(<AntDesign key={uuidv4()} name="star" color={'orange'} />);
-    }
-    for (var i = 0; i < (5-this.props.ratings); i++) {
-      starContainer.push(<AntDesign key={uuidv4()} name="star" />);
-    }
-    return starContainer;
-  }
 
   handleRemovePress = () => {
     const { id, onRemovePress } = this.props;
@@ -59,9 +48,7 @@ export default class ReviewCard extends React.Component {
 
             <Text style={styles.reviewContent}>{content}</Text>
 
-            <View style={styles.cardStatusFooter}>
-              {this.ratingStarGenerator()}
-            </View>
+            <Ratings value={ratings} size={10} />
           </View>
       </View>
     );
