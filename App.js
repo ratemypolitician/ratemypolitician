@@ -8,7 +8,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar hidden={false} />
+        <StatusBar hidden={false} barStyle={'dark-content'} />
         <AppContainer />
       </View>
     )
