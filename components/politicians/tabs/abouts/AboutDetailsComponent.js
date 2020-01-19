@@ -7,11 +7,11 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { styles } from './Styles';
 import { AntDesign } from '@expo/vector-icons';
 import DetailField from './DetailField';
-import { logoProvider } from './helpers';
+import { logoProvider } from './../../../../assets/parti/index';
 import { imageProvider } from './../../../../assets/ahli/index';
+import { styles } from './Styles';
 
 export default class AboutDetailsComponent extends React.Component {
   render() {
