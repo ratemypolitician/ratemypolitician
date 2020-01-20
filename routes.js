@@ -8,11 +8,14 @@ import {
 import { Dimensions } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-// import profile
+// import politician
 import PoliticianScreen from './components/politicians/PoliticianScreen';
 import PoliticianTabs from './components/politicians/tabs/PoliticianTabs';
 import AchievementScreen from './components/politicians/tabs/achievements/AchievementScreen';
 import ImageModal from './components/politicians/tabs/achievements/ImageModal';
+
+// import profile
+import ProfileTabs from './components/profiles/tabs/ProfileTabs';
 
 import { tabBarOptionsConfig } from './components/shared/tabBarOptionsConfig';
 
@@ -29,14 +32,27 @@ const PoliticianStacks = createStackNavigator(
   {
     initialRouteName: 'PoliticianScreen',
     navigationOptions: {
-      tabBarIcon: getTabBarIcon('user'),
+      tabBarIcon: getTabBarIcon('team'),
     },
   },
 );
 
+const ProfileStacks = createStackNavigator(
+  {
+    ProfileTabs,
+  },
+  {
+    initialRouteName: 'ProfileTabs',
+    navigationOptions: {
+      tabBarIcon: getTabBarIcon('user'),
+    },
+  }
+)
+
 const TabNavigator = createBottomTabNavigator(
   {
     Politician: PoliticianStacks,
+    Profile: ProfileStacks,
   },
   {
     initialRouteName: 'Politician',

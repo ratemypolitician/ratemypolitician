@@ -25,7 +25,7 @@ export default class ReviewsTabComponent extends React.Component {
     overallRating: Number(0).toFixed(1),
 
     reviews: reviews,
-    numberOfReviews: 2,
+    numberOfReviews: reviews.length,
     starWidth: {
       five: 2,
       four: 2,

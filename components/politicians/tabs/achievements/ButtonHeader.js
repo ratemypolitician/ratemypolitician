@@ -7,29 +7,68 @@ import {
   TouchableOpacity,
   ActionSheetIOS,
   Platform,
+  Clipboard,
+  Dimensions,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { AntDesign } from '@expo/vector-icons';
+import Toast, {DURATION} from 'react-native-easy-toast';
+
+const width = Dimensions.get('window').width;
 
 export default class ButtonHeader extends React.Component {
 
+  handleCopyPress = (text) => {
+    Clipboard.setString(text);
+    this.refs.toast.show('Link copied to clipboard', DURATION.LENGTH_LONG);
+  }
+
+  sendReportMenuIOS = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: [
+          'Cancel Report',
+          "It's fake",
+          "It's inappropriate",
+          "Misleading",
+        ],
+        cancelButtonIndex: 0,
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          // fake
+        } else if (buttonIndex === 1) {
+          // inappropriate
+        } else if (buttonIndex === 2) {
+          // Misleading
+        }
+        this.refs.toast.show('Your report has been sent', DURATION.LENGTH_LONG);
+      }
+    )
+  }
+
+  actionSheetMenuIOS = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['Cancel', 'Report', 'Copy Link'],
+          cancelButtonIndex: 0,
+          destructiveButtonIndex: 1,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 1) {
+            // Send report
+            this.sendReportMenuIOS()
+          } else if (buttonIndex === 2) {
+            this.handleCopyPress('https://www.google.com')
+          }
+        },
+      )
+  }
+
   handleActionSheet = () => {
     Platform.OS === 'ios'
-      ? ActionSheetIOS.showActionSheetWithOptions(
-          {
-            options: ['Cancel', 'Edit', 'Remove'],
-            destructiveButtonIndex: 2,
-            cancelButtonIndex: 0,
-          },
-          (buttonIndex) => {
-            if (buttonIndex === 1) {
-              this.props.navigation.navigate('ProductForm');
-            } else if (buttonIndex === 2) {
-              Alert.alert('Remove');
-            }
-          },
-        )
-      : this.ActionSheet.show();
+      ? this.actionSheetMenuIOS()
+      : this.ActionSheetMenuAndroid.show();
   }
 
   render() {
@@ -40,19 +79,51 @@ export default class ButtonHeader extends React.Component {
         </TouchableOpacity>
 
         <ActionSheet
-          ref={o => this.ActionSheet = o}
-          options={['Cancel', 'Edit', 'Remove']}
+          ref={o => this.ActionSheetMenuAndroid = o}
+          options={['Cancel', 'Report', 'Copy Link']}
           cancelButtonIndex={0}
-          destructiveButtonIndex={2}
+          destructiveButtonIndex={1}
           onPress={
             (buttonIndex) => {
               if (buttonIndex === 1) {
-                this.props.navigation.navigate('ProductForm');
+                this.ActionSheetReportAndroid.show()
               } else if (buttonIndex === 2) {
-                Alert.alert('Remove');
+                this.handleCopyPress('https://www.google.com');
               }
             }
           }
+        />
+
+        <ActionSheet
+          ref={o => this.ActionSheetReportAndroid = o}
+          options={[
+            'Cancel Report',
+            "It's fake",
+            "It's inappropriate",
+            "Misleading",
+          ]}
+          cancelButtonIndex={0}
+          onPress={
+            (buttonIndex) => {
+              if (buttonIndex === 0) {
+                // fake
+              } else if (buttonIndex === 1) {
+                // inappropriate
+              } else if (buttonIndex === 2) {
+                // Misleading
+              }
+              this.refs.toast.show('Your report has been sent', DURATION.LENGTH_LONG);
+            }
+          }
+        />
+
+        <Toast
+          ref={'toast'}
+          position={'top'}
+          fadeInDuration={750}
+          fadeOutDuration={3000}
+          opacity={0.8}
+          style={styles.toast}
         />
 
       </View>
@@ -67,4 +138,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingHorizontal: 15,
   },
+  toast: {
+    minWidth: 250,
+    marginRight: width / 1.15,
+    marginTop: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 })

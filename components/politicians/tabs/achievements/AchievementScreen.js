@@ -11,11 +11,11 @@ import {
   FlatList,
   Platform,
 } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
 import { AntDesign } from '@expo/vector-icons';
-import store from './../../../../store';
+import ActionSheet from 'react-native-actionsheet';
 import ButtonHeader from './ButtonHeader';
 import CarouselImage from './CarouselImage';
+import store from './../../../../store';
 import { badgeStatusColor } from './helpers';
 import { styles } from './Styles';
 
@@ -32,7 +32,7 @@ export default class AchievementScreen extends React.Component {
   }
 
   handleToggleFavorite = () => {
-    
+
   }
 
   shareFailure() {
