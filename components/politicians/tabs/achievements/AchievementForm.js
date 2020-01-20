@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Image,
@@ -9,7 +8,6 @@ import {
   TouchableOpacity,
   ActionSheetIOS,
   FlatList,
-  Dimensions,
   TextInput,
   StatusBar,
   KeyboardAvoidingView,
@@ -17,8 +15,8 @@ import {
 import uuidv4 from 'uuid/v4';
 import { AntDesign } from '@expo/vector-icons';
 import ButtonHeader from './ButtonHeader';
-
-const width = Dimensions.get('window').width;
+import CarouselImage from './CarouselImage';
+import { styles } from './Styles';
 
 export default class AchievementForm extends React.Component {
   state = {
@@ -53,9 +51,7 @@ export default class AchievementForm extends React.Component {
   {
     const object = this.state.product;
     return (
-      <TouchableOpacity onPress={ () => this.props.navigation.navigate('ImageModal', { images: object.imageUri }) }>
-        <Image source={item.uri} style={styles.carouselImage} />
-      </TouchableOpacity>
+      <CarouselImage image={item.uri} onPress={() => this.props.navigation.navigate('ImageModal', { images: object.imageUri })} />
     )
   }
 
@@ -152,101 +148,3 @@ export default class AchievementForm extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  numImage: {
-    position: 'absolute',
-    padding: 10,
-    backgroundColor: 'grey',
-    color: 'white',
-    borderRadius: 10,
-    zIndex: 1,
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15,
-    justifyContent: 'space-between',
-  },
-  socialProfile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: 50,
-  },
-  socialIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  shopIcon: {
-    width: 30,
-    height: 30,
-  },
-  profileText: {
-    fontSize: 10,
-  },
-  timeText: {
-    color: 'grey',
-    fontSize: 10,
-  },
-  carouselContainer: {
-    flex: 1,
-  },
-  carouselImage: {
-    flex: 1,
-    width,
-    height: 300,
-  },
-  detailsSection: {
-    flex: 1,
-    padding: 10,
-  },
-  messageshopNameContainer: {
-    padding: 10,
-    borderColor: 'grey',
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  favoritesText: {
-    color: 'grey',
-    paddingRight: 13,
-  },
-  captionContainer: {
-    flex: 1,
-  },
-  cardTitle: {
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  cardSubTitle: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  brandSizeContainer: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  brandText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  sizeText: {
-    fontSize: 15,
-  },
-  priceContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-  priceText: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  buttonFooter: {
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-})

@@ -9,27 +9,15 @@ import {
   TouchableOpacity,
   ActionSheetIOS,
   FlatList,
-  Dimensions,
   Platform,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { AntDesign } from '@expo/vector-icons';
 import store from './../../../../store';
 import ButtonHeader from './ButtonHeader';
-
-const width = Dimensions.get('window').width;
-
-const badgeStatusColor = (status) => {
-  if (status === 'In Progress') {
-    return 'orange';
-  }else if (status === 'Broken') {
-    return 'red';
-  }else if (status === 'On Hold') {
-    return 'black';
-  }else if (status === 'Completed') {
-    return 'green';
-  }
-}
+import CarouselImage from './CarouselImage';
+import { badgeStatusColor } from './helpers';
+import { styles } from './Styles';
 
 export default class AchievementScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -44,18 +32,7 @@ export default class AchievementScreen extends React.Component {
   }
 
   handleToggleFavorite = () => {
-    const { isFavorited } = this.state;
-    const { currentUserFavorites } = store.getState().currentUserFavorites;
-    const { navigation } = this.props.navigation;
-
-    if (isFavorited) {
-      // set to false and remove from array
-    } else if (!isFavorited) {
-      // set to true and add to array
-      store.setState({
-        currentUserFavorites: [navigation.getParam('object'), ...currentUserFavorites]
-      })
-    }
+    
   }
 
   shareFailure() {
@@ -78,9 +55,10 @@ export default class AchievementScreen extends React.Component {
   {
     const object = this.props.navigation.getParam('object');
     return (
-      <TouchableOpacity onPress={ () => this.props.navigation.navigate('ImageModal', { images: object.imageUri }) }>
-        <Image source={item.uri} style={styles.carouselImage} />
-      </TouchableOpacity>
+      <CarouselImage
+      image={item.uri}
+      onPress={() => this.props.navigation.navigate('ImageModal', { images: object.imageUri })}
+      />
     )
   }
 
@@ -177,100 +155,3 @@ export default class AchievementScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  numImage: {
-    position: 'absolute',
-    padding: 10,
-    backgroundColor: 'grey',
-    color: 'white',
-    zIndex: 1,
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15,
-    justifyContent: 'space-between',
-  },
-  socialProfile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: 50,
-  },
-  socialIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  shopIcon: {
-    width: 30,
-    height: 30,
-  },
-  profileText: {
-    fontSize: 10,
-  },
-  timeText: {
-    color: 'grey',
-    fontSize: 10,
-  },
-  carouselContainer: {
-    flex: 1,
-  },
-  carouselImage: {
-    flex: 1,
-    width,
-    height: 300,
-  },
-  detailsSection: {
-    flex: 1,
-    padding: 10,
-  },
-  messageshopNameContainer: {
-    padding: 10,
-    borderColor: 'grey',
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  favoritesText: {
-    color: 'grey',
-    paddingRight: 13,
-  },
-  captionContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  location: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'grey',
-  },
-  status: {
-    fontSize: 15,
-    color: 'white',
-    padding: 5,
-    textAlign: 'center',
-  },
-  badge: {
-    marginTop: 15,
-    maxWidth: 100,
-    borderRadius: 20,
-  },
-  priceContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-  priceText: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  buttonFooter: {
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-})

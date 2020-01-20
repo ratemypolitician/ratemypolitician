@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import Ratings from './Ratings';
 import { imageProvider } from './../../assets/ahli/index';
 import { styles } from './Styles';
 
-export default class PoliticianCard extends React.Component {
+export default class PoliticianCard extends PureComponent {
   render() {
     const { object } = this.props;
 

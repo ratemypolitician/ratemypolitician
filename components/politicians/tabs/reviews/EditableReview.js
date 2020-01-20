@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import ReviewForm from './ReviewForm';
 import ReviewCard from './ReviewCard';
 
-export default class EditableReview extends React.Component {
+export default class EditableReview extends PureComponent {
   state = {
     editFormOpen: false,
   }
