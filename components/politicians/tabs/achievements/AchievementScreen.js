@@ -15,7 +15,7 @@ import { AntDesign } from '@expo/vector-icons';
 import ActionSheet from 'react-native-actionsheet';
 import ButtonHeader from './ButtonHeader';
 import CarouselImage from './CarouselImage';
-import store from './../../../../store';
+
 import { badgeStatusColor } from './helpers';
 import { styles } from './Styles';
 
@@ -29,10 +29,18 @@ export default class AchievementScreen extends React.Component {
   state = {
     isFavorited: this.props.navigation.getParam('object').isFavorited ? true : false,
     numImage: this.props.navigation.getParam('object').imageUri.length,
+
+    currentUser: false,
   }
 
   handleToggleFavorite = () => {
-
+    const { currentUser } = this.state;
+    
+    if (currentUser === false) {
+      this.props.navigation.navigate('SignInUp');
+    } else if (currentUser == true) {
+      // increment likes
+    }
   }
 
   shareFailure() {
@@ -62,13 +70,53 @@ export default class AchievementScreen extends React.Component {
     )
   }
 
+  renderHistories = ({ item }) => (
+    <View style={{ paddingBottom: 10 }}>
+      <Text style={{ color: 'grey', fontWeight: 'bold' }}>
+      {item.date}
+      </Text>
+      <Text>
+      {item.description}
+      </Text>
+    </View>
+  )
+
   render() {
     const { isFavorited, numImage } = this.state;
     const object = this.props.navigation.getParam('object');
 
-    return (
-      <View style={styles.container}>
+    const ActionSheetComponent = () => (
+      <ActionSheet
+        ref={o => this.ActionSheet = o}
+        title={'Share Link'}
+        options={[
+          'Cancel',
+          'Whatsapp',
+          'Facebook',
+          'Twitter',
+          'Instagram',
+          'More...',
+        ]}
+        cancelButtonIndex={0}
+        onPress={
+          (buttonIndex) => {
+            if (buttonIndex === 1) {
 
+            } else if (buttonIndex === 2) {
+
+            } else if (buttonIndex === 3) {
+
+            } else if (buttonIndex === 4) {
+
+            } else if (buttonIndex === 5) {
+
+            }
+          }
+        }
+      />
+    )
+
+    return (
       <ScrollView
       style={styles.container}
       showsVerticalScrollIndicator={false}
@@ -89,16 +137,15 @@ export default class AchievementScreen extends React.Component {
         </View>
 
         <View style={styles.detailsSection}>
+          <Text style={styles.title}>{object.title}</Text>
+          <Text style={styles.location}>{object.location}</Text>
 
-            <Text style={styles.title}>{object.title}</Text>
-            <Text style={styles.location}>{object.location}</Text>
-            <View style={[styles.badge,
-              { backgroundColor: badgeStatusColor(object.status) }]}>
-              <Text style={styles.status}>{object.status}</Text>
-            </View>
+          <View style={[styles.badge,
+            { backgroundColor: badgeStatusColor(object.status) }]}>
+            <Text style={styles.status}>{object.status}</Text>
+          </View>
 
-            <View style={styles.socialContainer}>
-
+          <View style={styles.socialContainer}>
             <TouchableOpacity style={styles.socialProfile}>
               <Text style={styles.timeText}>Posted on {object.created_at}</Text>
             </TouchableOpacity>
@@ -113,45 +160,22 @@ export default class AchievementScreen extends React.Component {
               <Text style={styles.favoritesText}>{object.shared}</Text>
             </TouchableOpacity>
 
-            <ActionSheet
-              ref={o => this.ActionSheet = o}
-              title={'Share Link'}
-              options={[
-                'Cancel',
-                'Whatsapp',
-                'Facebook',
-                'Twitter',
-                'Instagram',
-                'More...',
-              ]}
-              cancelButtonIndex={0}
-              onPress={
-                (buttonIndex) => {
-                  if (buttonIndex === 1) {
+            <ActionSheetComponent />
+          </View>
 
-                  } else if (buttonIndex === 2) {
-
-                  } else if (buttonIndex === 3) {
-
-                  } else if (buttonIndex === 4) {
-
-                  } else if (buttonIndex === 5) {
-
-                  }
-                }
-              }
+          <View style={styles.captionContainer}>
+            <Text style={styles.histories}>
+            Achievement Histories
+            </Text>
+            <FlatList
+            data={object.histories}
+            keyExtractor={item => item.id.toString()}
+            renderItem={this.renderHistories}
             />
-
-            </View>
-
-            <View style={styles.captionContainer}>
-              <Text>{object.caption}</Text>
-            </View>
-
+          </View>
         </View>
-      </ScrollView>
 
-      </View>
+      </ScrollView>
     );
   }
 }

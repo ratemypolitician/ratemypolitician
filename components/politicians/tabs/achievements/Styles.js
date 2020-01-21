@@ -38,6 +38,15 @@ export const styles = StyleSheet.create({
     width: null,
     height: null,
   },
+  histories: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingBottom: 10,
+    borderTopColor: 'grey',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: 20,
+    marginTop: 20,
+  },
 
   container: {
     flex: 1,

@@ -16,6 +16,13 @@ import { ratingStarGenerator } from './helpers';
 
 export default class ReviewCard extends React.Component {
 
+  state = {
+    authenticated: false,
+    currentUser: {
+      id: 1,
+    }
+  }
+
   handleRemovePress = () => {
     const { id, onRemovePress } = this.props;
     onRemovePress(id);
@@ -25,12 +32,15 @@ export default class ReviewCard extends React.Component {
     const {
       userImage,
       username,
+      userId,
       created_at,
       content,
       ratings,
       onEditPress,
       onRemovePress,
     } = this.props;
+
+    const { currentUser, authenticated } = this.state;
 
     return (
       <View style={styles.cardContainer}>
@@ -42,7 +52,9 @@ export default class ReviewCard extends React.Component {
                 <Text style={styles.cardTimeText}>Posted {formatDateTime(created_at)}</Text>
               </View>
 
-              <ButtonAction onEdit={onEditPress} onRemove={this.handleRemovePress} />
+              {authenticated && (currentUser.id === userId) && (
+                <ButtonAction onEdit={onEditPress} onRemove={this.handleRemovePress} />
+              )}
 
             </View>
 

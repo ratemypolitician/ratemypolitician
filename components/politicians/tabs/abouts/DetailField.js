@@ -13,6 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 export default class DetailField extends React.Component {
   handleFieldPress = (text) => {
     Clipboard.setString(text);
+    this.refs.toast.show('Copied to clipboard', DURATION.LENGTH_LONG);
   }
 
   render() {
@@ -23,7 +24,6 @@ export default class DetailField extends React.Component {
       style={styles.detailsCard}
       onPress={() => {
         this.handleFieldPress(value);
-        this.refs.toast.show('Copied to clipboard', DURATION.LENGTH_LONG);
       }}
       >
         {icon && (

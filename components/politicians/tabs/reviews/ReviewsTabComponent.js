@@ -17,6 +17,8 @@ import { ratingCalculator, newReview, reviews } from './helpers';
 import { styles } from './Styles';
 
 export default class ReviewsTabComponent extends React.Component {
+  static router = ToggleableReviewForm.router;
+
   state = {
     isLoading: false,
     error: false,
@@ -118,13 +120,22 @@ export default class ReviewsTabComponent extends React.Component {
   }
 
   renderItem = ({ item }) => {
-    const { username, userImage, created_at, content, ratings, id } = item;
+    const {
+      username,
+      userImage,
+      created_at,
+      content,
+      ratings,
+      id,
+      userId,
+    } = item;
 
     return(
       <EditableReview
         id={id}
         content={content}
         ratings={ratings}
+        userId={userId}
         username={username}
         userImage={userImage}
         created_at={created_at}
@@ -208,6 +219,7 @@ export default class ReviewsTabComponent extends React.Component {
 
             <ToggleableReviewForm
               onFormSubmit={this.handleCreateFormSubmit}
+              navigation={this.props.navigation}
             />
 
             <FlatList

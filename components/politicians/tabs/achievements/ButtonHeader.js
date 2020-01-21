@@ -17,6 +17,9 @@ import Toast, {DURATION} from 'react-native-easy-toast';
 const width = Dimensions.get('window').width;
 
 export default class ButtonHeader extends React.Component {
+  state = {
+    currentUser: false,
+  }
 
   handleCopyPress = (text) => {
     Clipboard.setString(text);
@@ -54,6 +57,8 @@ export default class ButtonHeader extends React.Component {
   }
 
   actionSheetMenuIOS = () => {
+    const { currentUser } = this.state;
+
     ActionSheetIOS.showActionSheetWithOptions(
         {
           options: ['Cancel', 'Report', 'Copy Link'],
@@ -62,10 +67,14 @@ export default class ButtonHeader extends React.Component {
         },
         (buttonIndex) => {
           if (buttonIndex === 1) {
-            // Send report
-            this.sendReportMenuIOS()
+            if (currentUser === false) {
+              this.props.navigation.navigate('SignInUp');
+            } else if (currentUser === true) {
+              // Send report
+              this.sendReportMenuIOS();
+            }
           } else if (buttonIndex === 2) {
-            this.handleCopyPress('https://www.google.com')
+            this.handleCopyPress('https://www.google.com');
           }
         },
       )
@@ -78,6 +87,8 @@ export default class ButtonHeader extends React.Component {
   }
 
   render() {
+    const { currentUser } = this.state;
+
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.handleActionSheet}>
@@ -92,7 +103,11 @@ export default class ButtonHeader extends React.Component {
           onPress={
             (buttonIndex) => {
               if (buttonIndex === 1) {
-                this.ActionSheetReportAndroid.show()
+                if (currentUser === false) {
+                  this.props.navigation.navigate('SignInUp');
+                } else {
+                  this.ActionSheetReportAndroid.show();
+                }
               } else if (buttonIndex === 2) {
                 this.handleCopyPress('https://www.google.com');
               }

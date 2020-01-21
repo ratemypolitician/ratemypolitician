@@ -5,6 +5,7 @@ const userImage = require('./../assets/users/jedi.png');
 export const fakerReviews = [
   {
     id: uuidv4(),
+    userId: 1,
     username: 'Ali',
     userImage: userImage,
     content: 'Lorem ipsum dolor sit ametLorem ipsum dolor\
@@ -16,7 +17,8 @@ export const fakerReviews = [
   },
   {
     id: uuidv4(),
-    username: 'Ali',
+    userId: 2,
+    username: 'Abu',
     userImage: userImage,
     content: 'Lorem ipsum dolor sit ametLorem ipsum dolor\
     sit ametLorem ipsum dolor sit ametLorem ipsum dolor\

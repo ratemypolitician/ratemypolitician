@@ -1,5 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+} from 'react-native';
 
 import ReviewButton from './ReviewButton';
 import ReviewForm from './ReviewForm';
@@ -7,10 +11,17 @@ import ReviewForm from './ReviewForm';
 export default class ToggleableReviewForm extends React.Component {
   state = {
     isOpen: false,
+    currentUser: false
   }
 
   handleFormOpen = () => {
-    this.setState({ isOpen: true });
+    const { currentUser } = this.state;
+
+    if (currentUser === false) {
+      this.props.navigation.navigate('SignInUp');
+    } else if (currentUser === true) {
+      this.setState({ isOpen: true });
+    }
   }
 
   handleFormClose = () => {
