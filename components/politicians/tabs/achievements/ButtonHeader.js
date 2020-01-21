@@ -23,6 +23,10 @@ export default class ButtonHeader extends React.Component {
     this.refs.toast.show('Link copied to clipboard', DURATION.LENGTH_LONG);
   }
 
+  handleReportToast = () => {
+    this.refs.toast.show('Your report has been sent', DURATION.LENGTH_LONG);
+  }
+
   sendReportMenuIOS = () => {
     ActionSheetIOS.showActionSheetWithOptions(
       {
@@ -35,14 +39,16 @@ export default class ButtonHeader extends React.Component {
         cancelButtonIndex: 0,
       },
       (buttonIndex) => {
-        if (buttonIndex === 0) {
+        if (buttonIndex === 1) {
           // fake
-        } else if (buttonIndex === 1) {
-          // inappropriate
+          this.handleReportToast()
         } else if (buttonIndex === 2) {
+          // inappropriate
+          this.handleReportToast()
+        } else if (buttonIndex === 3) {
           // Misleading
+          this.handleReportToast()
         }
-        this.refs.toast.show('Your report has been sent', DURATION.LENGTH_LONG);
       }
     )
   }
@@ -105,14 +111,16 @@ export default class ButtonHeader extends React.Component {
           cancelButtonIndex={0}
           onPress={
             (buttonIndex) => {
-              if (buttonIndex === 0) {
+              if (buttonIndex === 1) {
                 // fake
-              } else if (buttonIndex === 1) {
-                // inappropriate
+                this.handleReportToast()
               } else if (buttonIndex === 2) {
+                // inappropriate
+                this.handleReportToast()
+              } else if (buttonIndex === 3) {
                 // Misleading
+                this.handleReportToast()
               }
-              this.refs.toast.show('Your report has been sent', DURATION.LENGTH_LONG);
             }
           }
         />

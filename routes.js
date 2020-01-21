@@ -8,6 +8,9 @@ import {
 import { Dimensions } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
+// import sign in
+import SignInUp from './components/auths/SignInUp';
+
 // import politician
 import PoliticianScreen from './components/politicians/PoliticianScreen';
 import PoliticianTabs from './components/politicians/tabs/PoliticianTabs';
@@ -49,10 +52,23 @@ const ProfileStacks = createStackNavigator(
   }
 )
 
+const AuthProfileStacks = createSwitchNavigator(
+  {
+    SignInUp,
+    ProfileStacks,
+  },
+  {
+    initialRouteName: 'SignInUp',
+    navigationOptions: {
+      tabBarIcon: getTabBarIcon('user'),
+    },
+  }
+)
+
 const TabNavigator = createBottomTabNavigator(
   {
     Politician: PoliticianStacks,
-    Profile: ProfileStacks,
+    Profile: AuthProfileStacks,
   },
   {
     initialRouteName: 'Politician',
@@ -78,9 +94,6 @@ const ModalNavigator = createStackNavigator(
     initialRouteName: 'TabNavigator',
     mode: 'modal',
     headerMode: 'none',
-    cardStyle: {
-      backgroundColor: 'rgba(52, 52, 52, 0.8)',
-    }
   }
 )
 

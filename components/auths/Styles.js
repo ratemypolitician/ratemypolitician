@@ -8,6 +8,14 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Constants.statusBarHeight,
   },
+  header: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  subheader: {
+    fontSize: 15,
+    color: 'grey',
+  },
   bottomContainer: {
     flex: 1,
     alignItems: 'center',
@@ -31,9 +39,21 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     height: 50,
-    width: 300,
-    backgroundColor: 'whitesmoke',
+    minWidth: 320,
     margin: 10,
     paddingHorizontal: 20,
+    borderRadius: 20,
+  },
+  button: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#27ae60',
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'white',
   }
 })
