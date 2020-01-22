@@ -30,7 +30,8 @@ export const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginLeft: 15,
-    marginVertical: 10,
+    marginVertical: 15,
+    borderRadius: 50,
   },
 
   container: {

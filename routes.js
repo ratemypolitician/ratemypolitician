@@ -11,6 +11,9 @@ import { AntDesign } from '@expo/vector-icons';
 // import sign in
 import SignInUp from './components/auths/SignInUp';
 
+// import dashboards
+import DashboardScreen from './components/dashboards/DashboardScreen';
+
 // import politician
 import PoliticianScreen from './components/politicians/PoliticianScreen';
 import PoliticianTabs from './components/politicians/tabs/PoliticianTabs';
@@ -65,9 +68,22 @@ const AuthProfileStacks = createSwitchNavigator(
   }
 )
 
+const DashboardStacks = createStackNavigator(
+  {
+    DashboardScreen,
+  },
+  {
+    initialRouteName: 'DashboardScreen',
+    navigationOptions: {
+      tabBarIcon: getTabBarIcon('linechart')
+    }
+  }
+)
+
 const TabNavigator = createBottomTabNavigator(
   {
     Politician: PoliticianStacks,
+    Dashboard: DashboardStacks,
     Profile: AuthProfileStacks,
   },
   {
