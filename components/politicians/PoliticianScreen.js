@@ -167,13 +167,6 @@ export default class PoliticianScreen extends React.Component {
             </View>
           )}
 
-          {isSearch && (
-            <View style={{ justifyContent: 'space-between',padding: 15, backgroundColor: 'white', flexDirection: 'row' }}>
-  <Text style={{ color: 'grey', fontWeight: 'bold'}}>Keywords: {keywords}</Text>
-          <Text style={{ color: 'grey', fontWeight: 'bold'}}>Total: {filteredProfiles.length}</Text>
-  
-            </View>
-          )}
           <FlatList
             data={filteredProfiles}
             keyExtractor={item => item.id.toString()}

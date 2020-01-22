@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, ScrollView, Text, Dimensions } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 
+import { pieData } from './../../data/statistics';
+
 const width = Dimensions.get('window').width;
 
 export default class DashboardScreen extends React.Component {
@@ -10,29 +12,6 @@ export default class DashboardScreen extends React.Component {
   }
 
   render() {
-      const pieData = [
-          {
-            name: 'PPBM',
-            population: 21,
-            color: 'rgba(131, 167, 234, 1)',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-          },
-          {
-            name: 'DAP',
-            population: 21,
-            color: '#f1c40f',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-          },
-          {
-            name: 'UMNO',
-            population: 21,
-            color: '#c0392b',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-          }
-      ]
 
       const chartConfig = {
         backgroundGradientFrom: "#1E2923",
