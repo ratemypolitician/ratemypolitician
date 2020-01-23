@@ -167,6 +167,13 @@ export default class PoliticianScreen extends React.Component {
             </View>
           )}
 
+          {isSearch && (
+            <View style={styles.resultContainer}>
+              <Text style={styles.resultText}>Keyword: { keywords }</Text>
+              <Text style={styles.resultText}>Results: { filteredProfiles.length }</Text>
+            </View>
+          )}
+
           <FlatList
             data={filteredProfiles}
             keyExtractor={item => item.id.toString()}

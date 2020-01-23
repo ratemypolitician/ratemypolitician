@@ -33,6 +33,16 @@ export const styles = StyleSheet.create({
     marginVertical: 15,
     borderRadius: 50,
   },
+  resultContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    padding: 20, 
+    backgroundColor: 'white',
+  },
+  resultText: {
+    color: 'grey', 
+    fontWeight: 'bold',
+  },
 
   container: {
     flex: 1,
