@@ -8,12 +8,18 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 
 import PoliticianCard from './PoliticianCard';
 import profiles from './../../data/profiles.json';
 import { AntDesign } from '@expo/vector-icons';
 import { styles } from './Styles';
+
+const user = {
+  name: 'Ali',
+  email: 'alkyu92@gmail.com',
+}
 
 export default class PoliticianScreen extends React.Component {
   static navigationOptions = {
@@ -33,6 +39,14 @@ export default class PoliticianScreen extends React.Component {
     filteredProfiles: [],
   }
 
+  _storeData = async () => {
+    try {
+      await AsyncStorage.setItem('currentUser', JSON.stringify(user));
+    } catch (error){
+      console.log(error);
+    }
+  }
+
   componentDidMount(){
     if (profiles.length > 0) {
       this.setState({
@@ -41,6 +55,8 @@ export default class PoliticianScreen extends React.Component {
         filteredProfiles: profiles
       })
     }
+
+    this._storeData();
   }
 
   handleSearchPress = () => {

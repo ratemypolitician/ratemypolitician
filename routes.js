@@ -8,8 +8,9 @@ import {
 import { Dimensions } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-// import sign in
+// import auth
 import SignInUp from './components/auths/SignInUp';
+import AuthChecker from './components/auths/AuthChecker';
 
 // import dashboards
 import DashboardScreen from './components/dashboards/DashboardScreen';
@@ -57,11 +58,12 @@ const ProfileStacks = createStackNavigator(
 
 const AuthProfileStacks = createSwitchNavigator(
   {
+    AuthChecker,
     SignInUp,
     ProfileStacks,
   },
   {
-    initialRouteName: 'SignInUp',
+    initialRouteName: 'AuthChecker',
     navigationOptions: {
       tabBarIcon: getTabBarIcon('user'),
     },
