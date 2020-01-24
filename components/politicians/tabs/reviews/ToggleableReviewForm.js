@@ -8,18 +8,20 @@ import {
 import ReviewButton from './ReviewButton';
 import ReviewForm from './ReviewForm';
 
+import STORE from './../../../../store';
+
 export default class ToggleableReviewForm extends React.Component {
   state = {
     isOpen: false,
-    currentUser: false
   }
 
-  handleFormOpen = () => {
-    const { currentUser } = this.state;
-
-    if (currentUser === false) {
+  handleFormOpen = async () => {
+    const currentUser = STORE.currentUser;
+    console.log('hi'+currentUser);
+    
+    if (currentUser === null) {
       this.props.navigation.navigate('SignInUp');
-    } else if (currentUser === true) {
+    } else if (currentUser !== null) {
       this.setState({ isOpen: true });
     }
   }

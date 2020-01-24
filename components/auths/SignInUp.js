@@ -8,10 +8,15 @@ import {
   Button,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Alert
+  Alert,
 } from 'react-native';
-
+import STORE from './../../store';
 import { styles } from './Styles';
+
+const user = {
+  name: 'Ali',
+  email: 'alkyu92@gmail.com',
+}
 
 export default class SignInUp extends React.Component {
   static navigationOptions = {
@@ -28,6 +33,7 @@ export default class SignInUp extends React.Component {
   }
 
   handleSignInPress = () => {
+    STORE.currentUser = user;
     this.props.navigation.navigate('ProfileTabs');
     // Alert.alert('signed In')
   }
