@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 export const fakerAchievements = [
   {
     id: uuidv4(),
-    userId: 1,
+    politicianId: 1,
     title: 'Kasut Hitam untuk Pelajar Sekolah',
     location: 'Seluruh Malaysia',
     description: 'Lorem ipsum dolor sit amet',
@@ -31,7 +31,7 @@ export const fakerAchievements = [
   },
   {
     id: uuidv4(),
-    userId: 2,
+    politicianId: 2,
     title: 'Sarapan Percuma Untuk Pelajar Sekolah',
     location: 'Seluruh Malaysia',
     description: 'Lorem ipsum dolor sit amet',

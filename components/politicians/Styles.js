@@ -36,7 +36,8 @@ export const styles = StyleSheet.create({
   resultContainer: {
     flexDirection: 'row', 
     justifyContent: 'space-between', 
-    padding: 20, 
+    paddingVertical: 10,
+    paddingHorizontal: 15, 
     backgroundColor: 'white',
   },
   resultText: {

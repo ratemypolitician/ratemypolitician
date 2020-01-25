@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Image,

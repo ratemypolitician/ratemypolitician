@@ -19,15 +19,6 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'white',
   },
-  iconEditImage: {
-    position: 'absolute',
-    zIndex: 1,
-    backgroundColor: 'grey',
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    padding: 5,
-  },
   profileName: {
     padding: 10,
     fontWeight: 'bold',

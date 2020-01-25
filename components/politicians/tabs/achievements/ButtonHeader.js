@@ -2,8 +2,6 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
-  Alert,
   TouchableOpacity,
   ActionSheetIOS,
   Platform,
@@ -12,7 +10,7 @@ import {
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { AntDesign } from '@expo/vector-icons';
-import Toast, {DURATION} from 'react-native-easy-toast';
+import Toast, { DURATION } from 'react-native-easy-toast';
 
 const width = Dimensions.get('window').width;
 

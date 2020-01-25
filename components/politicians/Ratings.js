@@ -5,7 +5,6 @@ import { AntDesign } from '@expo/vector-icons';
 
 export default function Ratings({
   value,
-  size
 }){
   let ratingsArray = [];
   for (var i = 1; i <= 5; i++) {

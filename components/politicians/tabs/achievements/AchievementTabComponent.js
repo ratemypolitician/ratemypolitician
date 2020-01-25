@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  ScrollView,
   ActivityIndicator,
   Button,
   FlatList,
@@ -18,17 +17,15 @@ export default class AchievementTabComponent extends React.Component {
   state = {
     loading: false,
     error: false,
-    exists: false,
     items: [],
   }
 
   async componentDidMount(){
     const politician = this.props.navigation.getParam('object');
-    const filtered = fakerAchievements.filter( ach => ach.userId === politician.id );
+    const filtered = fakerAchievements.filter( ach => ach.politicianId === politician.id );
 
     if (filtered.length > 0) {
       this.setState({
-        exists: true,
         items: filtered
       })
     }
@@ -39,7 +36,7 @@ export default class AchievementTabComponent extends React.Component {
   )
 
   render() {
-    const { loading, error, exists, items } = this.state;
+    const { loading, error, items } = this.state;
 
     return (
       <View style={styles.container}>
@@ -63,7 +60,7 @@ export default class AchievementTabComponent extends React.Component {
 
       {!loading && (
         <View style={styles.container}>
-        {exists && (
+        {items.length > 0 && (
           <FlatList
             data={items}
             keyExtractor={item => item.id.toString()}
@@ -71,7 +68,7 @@ export default class AchievementTabComponent extends React.Component {
           />
         )}
 
-        {!exists && (
+        {items.length === 0 && (
           <View style={styles.staticViewContainer}>
           <Text>No achievements yet.</Text>
           </View>

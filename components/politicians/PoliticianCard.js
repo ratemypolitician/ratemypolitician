@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Ratings from './Ratings';
 import { imageProvider } from './../../assets/ahli/index';
 import { styles } from './Styles';

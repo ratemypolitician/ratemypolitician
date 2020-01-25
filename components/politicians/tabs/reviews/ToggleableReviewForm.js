@@ -16,7 +16,6 @@ export default class ToggleableReviewForm extends React.Component {
 
   handleFormOpen = async () => {
     const currentUser = STORE.currentUser;
-    console.log('hi'+currentUser);
     
     if (currentUser === null) {
       this.props.navigation.navigate('SignInUp');

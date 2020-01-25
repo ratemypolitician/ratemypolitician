@@ -86,10 +86,6 @@ export default class PoliticianScreen extends React.Component {
   handleChangeText = (keywords) => {
     const filteredProfiles = this.searchFromKeywords(keywords);
 
-    const filteredProfilesName = filteredProfiles.map(
-      (profile) => profile.nama
-    );
-
     this.setState({
       keywords,
       filteredProfiles,

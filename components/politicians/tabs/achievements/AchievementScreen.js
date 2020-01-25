@@ -1,11 +1,8 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
-  Image,
   ScrollView,
-  Alert,
   TouchableOpacity,
   ActionSheetIOS,
   FlatList,
@@ -15,7 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 import ActionSheet from 'react-native-actionsheet';
 import ButtonHeader from './ButtonHeader';
 import CarouselImage from './CarouselImage';
-
+import STORE from './../../../../store';
 import { badgeStatusColor } from './helpers';
 import { styles } from './Styles';
 
@@ -29,16 +26,13 @@ export default class AchievementScreen extends React.Component {
   state = {
     isFavorited: this.props.navigation.getParam('object').isFavorited ? true : false,
     numImage: this.props.navigation.getParam('object').imageUri.length,
-
-    currentUser: false,
   }
 
   handleToggleFavorite = () => {
-    const { currentUser } = this.state;
     
-    if (currentUser === false) {
+    if (STORE.currentUser === null) {
       this.props.navigation.navigate('SignInUp');
-    } else if (currentUser == true) {
+    } else {
       // increment likes
     }
   }
