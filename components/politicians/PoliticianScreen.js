@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  ScrollView,
   ActivityIndicator,
   Button,
   FlatList,
@@ -14,13 +13,6 @@ import PoliticianCard from './PoliticianCard';
 import profiles from './../../data/profiles.json';
 import { AntDesign } from '@expo/vector-icons';
 import { styles } from './Styles';
-
-import STORE from './../../store';
-
-const user = {
-  name: 'Ali',
-  email: 'alkyu92@gmail.com',
-}
 
 export default class PoliticianScreen extends React.Component {
   static navigationOptions = {
@@ -48,8 +40,6 @@ export default class PoliticianScreen extends React.Component {
         filteredProfiles: profiles
       })
     }
-
-    STORE.currentUser = user;
   }
 
   handleSearchPress = () => {

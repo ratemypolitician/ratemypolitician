@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import PieChartComponent from './PieChartComponent';
 import { pieData } from './../../data/statistics';

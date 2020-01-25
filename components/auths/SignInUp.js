@@ -1,22 +1,15 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   TextInput,
   Image,
-  Button,
-  KeyboardAvoidingView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import STORE from './../../store';
 import { styles } from './Styles';
-
-const user = {
-  name: 'Ali',
-  email: 'alkyu92@gmail.com',
-}
+import { currentUser } from './../../data/currentUser';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class SignInUp extends React.Component {
   static navigationOptions = {
@@ -33,13 +26,18 @@ export default class SignInUp extends React.Component {
   }
 
   handleSignInPress = () => {
-    STORE.currentUser = user;
-    this.props.navigation.navigate('ProfileTabs');
-    // Alert.alert('signed In')
+    STORE.currentUser = currentUser;
+
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+    });
+
+    this.props.navigation.dispatch(resetAction);
   }
 
   handleSignUpPress = () => {
-    // Alert.alert('signed UP')
+
   }
 
   render() {

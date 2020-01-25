@@ -1,13 +1,10 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,ScrollView,
   Image,
-  TouchableOpacity
 } from 'react-native';
 
-import { AntDesign } from '@expo/vector-icons';
 import DetailField from './DetailField';
 import { logoProvider } from './../../../../assets/parti/index';
 import { imageProvider } from './../../../../assets/ahli/index';

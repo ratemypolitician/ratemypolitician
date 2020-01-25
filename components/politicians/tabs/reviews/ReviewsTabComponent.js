@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   ScrollView,
-  KeyboardAvoidingView,
   ActivityIndicator,
   Button,
   FlatList,
@@ -12,55 +10,39 @@ import {
 
 import ToggleableReviewForm from './ToggleableReviewForm';
 import EditableReview from './EditableReview';
-import { ratingCalculator, newReview, reviews } from './helpers';
-
+import { ratingCalculator, newReview } from './helpers';
+import { fakerReviews } from './../../../../data/fakerReviews';
 import { styles } from './Styles';
 
 export default class ReviewsTabComponent extends React.Component {
   static router = ToggleableReviewForm.router;
 
+  filtered = () => {
+    const object = this.props.navigation.getParam('object');
+    return fakerReviews.filter( review => review.politicianId === object.id);
+  }
+
   state = {
     isLoading: false,
     error: false,
-
-    currentUser: {},
-    overallRating: Number(0).toFixed(1),
-
-    reviews: reviews,
-    numberOfReviews: reviews.length,
+    overallRating: ratingCalculator(this.filtered())[0],
+    reviews: this.filtered(),
     starWidth: {
-      five: 2,
-      four: 2,
-      three: 2,
-      two: 2,
-      one: 2,
+      five: ratingCalculator(this.filtered())[5],
+      four: ratingCalculator(this.filtered())[4],
+      three: ratingCalculator(this.filtered())[3],
+      two: ratingCalculator(this.filtered())[2],
+      one: ratingCalculator(this.filtered())[1],
     },
   }
 
-  componentDidMount(){
-    const { reviews } = this.state;
-    const ratingArray = ratingCalculator(reviews);
-
-    this.setState({
-      starWidth: {
-        five: ratingArray[5],
-        four: ratingArray[4],
-        three: ratingArray[3],
-        two: ratingArray[2],
-        one: ratingArray[1],
-      },
-      overallRating: ratingArray[0],
-    });
-  }
-
   handleCreateFormSubmit = review => {
-    const { reviews, numberOfReviews } = this.state;
+    const { reviews } = this.state;
     const latestReviews = [newReview(review), ...reviews];
     const ratingArray = ratingCalculator(latestReviews);
 
     this.setState({
       reviews: latestReviews,
-      numberOfReviews: numberOfReviews + 1,
       starWidth: {
         five: ratingArray[5],
         four: ratingArray[4],
@@ -101,13 +83,13 @@ export default class ReviewsTabComponent extends React.Component {
   }
 
   handleRemovePress = (reviewId) => {
-    const { numberOfReviews, reviews } = this.state;
+    const { reviews } = this.state;
     const filtered = reviews.filter( review => review.id !== reviewId );
+    
     const ratingArray = ratingCalculator(filtered);
-
+    
     this.setState({
       reviews: filtered,
-      numberOfReviews: numberOfReviews - 1,
       starWidth: {
         five: ratingArray[5],
         four: ratingArray[4],
@@ -153,11 +135,9 @@ export default class ReviewsTabComponent extends React.Component {
     const {
       isLoading,
       error,
-      numberOfReviews,
       reviews,
       starWidth,
       overallRating,
-      currentUser,
     } = this.state;
 
     return (
@@ -181,7 +161,7 @@ export default class ReviewsTabComponent extends React.Component {
         {!error && (
           <ScrollView>
 
-            <Text style={styles.textReview}>{numberOfReviews} Reviews</Text>
+            <Text style={styles.textReview}>{reviews.length} Reviews</Text>
 
             <View style={{ flexDirection: 'row', margin: 5, padding: 10, backgroundColor: 'white', }}>
               <View style={{ flex: 0.7, paddingLeft: 10 }}>
@@ -222,13 +202,22 @@ export default class ReviewsTabComponent extends React.Component {
               navigation={this.props.navigation}
             />
 
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={reviews}
-              keyExtractor={item => item.id.toString()}
-              renderItem={this.renderItem}
-              ListFooterComponent={this.renderListPadding}
+            {reviews.length > 0 && (
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={reviews}
+                keyExtractor={item => item.id.toString()}
+                renderItem={this.renderItem}
+                ListFooterComponent={this.renderListPadding}
               />
+            )}
+
+            {reviews.length === 0 && (
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text>No reviews yet.</Text>
+              </View>
+            )}
+            
           </ScrollView>
         )}
         </View>

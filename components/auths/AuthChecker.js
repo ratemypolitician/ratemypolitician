@@ -5,14 +5,11 @@ import STORE from './../../store';
 export default class AuthChecker extends React.Component {
 
   componentDidMount(){
-    console.log(STORE.currentUser);
-    
     if (STORE.currentUser === null) {
       this.props.navigation.navigate('SignInUp')
     } else {
       this.props.navigation.navigate('ProfileStacks')
     }
-    
   }
 
   render(){

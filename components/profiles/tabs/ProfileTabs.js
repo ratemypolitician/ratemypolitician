@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   createMaterialTopTabNavigator,
 } from 'react-navigation';
@@ -8,11 +7,11 @@ import MyReviewsTabComponent from './myreviews/MyReviewsTabComponent';
 
 const ProfileTabs = createMaterialTopTabNavigator(
   {
-    MyProfile: MyProfileTabComponent,
-    MyReviews: MyReviewsTabComponent,
+    Profile: MyProfileTabComponent,
+    Reviews: MyReviewsTabComponent,
   },
   {
-    initialRouteName: 'MyProfile',
+    initialRouteName: 'Profile',
     tabBarPosition: 'top',
     tabBarOptions: {
       style: {

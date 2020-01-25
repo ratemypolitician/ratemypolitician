@@ -1,49 +1,51 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { 
+  ScrollView, 
+  View,
+  Image,
+  Text, 
+  TouchableOpacity 
+} from 'react-native';
 
 import STORE from './../../../../store';
+import { styles } from './Styles';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class MyProfileTabComponent extends React.Component {
   handleSignOutPress = async () => {
     STORE.currentUser = null;
-    this.props.navigation.navigate('SignInUp');
+
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
   
   render() {
+    const currentUser = STORE.currentUser;
+
     return (
-      <View style={styles.container}>
+      <ScrollView 
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+      >
+        <View style={styles.avatarSection}>
+          <Image source={currentUser.userImage} style={styles.avatar} />
+          <Text style={styles.profileName}>
+            {currentUser.name}
+          </Text>
+          <Text style={styles.status}>{currentUser.email}</Text>
+        </View>
+
         <TouchableOpacity
-              onPress={this.handleSignOutPress}
-              style={[styles.textInput, styles.button ]}
-            >
-              <Text style={styles.buttonText}>Sign Out</Text>
-            </TouchableOpacity>
-      </View>
+          onPress={this.handleSignOutPress}
+          style={[styles.textInput, styles.button ]}
+        >
+          <Text style={styles.buttonText}>Sign Out</Text>
+        </TouchableOpacity>
+      </ScrollView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textInput: {
-    height: 50,
-    minWidth: 320,
-    margin: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-  },
-  button: {
-    justifyContent: 'center',
-    backgroundColor: '#c0392b',
-  },
-  buttonText: {
-    textAlign: 'center',
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: 'white',
-  }
-})

@@ -1,27 +1,18 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Image,
-  Alert,
-  TouchableOpacity,
 } from 'react-native';
 
 import ButtonAction from './ButtonAction';
 import Ratings from './../../Ratings';
 import { formatDateTime } from './../../../shared/formatDateTime';
 import { styles } from './Styles';
-import { ratingStarGenerator } from './helpers';
+
+import STORE from './../../../../store';
 
 export default class ReviewCard extends React.Component {
-
-  state = {
-    authenticated: false,
-    currentUser: {
-      id: 1,
-    }
-  }
 
   handleRemovePress = () => {
     const { id, onRemovePress } = this.props;
@@ -37,10 +28,7 @@ export default class ReviewCard extends React.Component {
       content,
       ratings,
       onEditPress,
-      onRemovePress,
     } = this.props;
-
-    const { currentUser, authenticated } = this.state;
 
     return (
       <View style={styles.cardContainer}>
@@ -52,7 +40,7 @@ export default class ReviewCard extends React.Component {
                 <Text style={styles.cardTimeText}>Posted {formatDateTime(created_at)}</Text>
               </View>
 
-              {authenticated && (currentUser.id === userId) && (
+              {STORE.currentUser !== null && (STORE.currentUser.id === userId) && (
                 <ButtonAction onEdit={onEditPress} onRemove={this.handleRemovePress} />
               )}
 

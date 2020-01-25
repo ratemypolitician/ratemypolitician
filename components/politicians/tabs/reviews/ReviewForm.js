@@ -1,15 +1,9 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
-  Text,
-  Image,
   Alert,
   TextInput,
-  TouchableOpacity,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-
 import ButtonRating from './ButtonRating';
 import ReviewButton from './ReviewButton';
 import { styles } from './Styles';
@@ -42,23 +36,28 @@ export default class ReviewForm extends React.Component {
     const { onFormSubmit, id } = this.props;
     const { content, ratings } = this.state;
 
+    if (!content) {
+      Alert.alert('Please write some review')
+      return;
+    }
+
     onFormSubmit({ id, content, ratings });
   }
 
   render() {
     const { id, onFormClose } = this.props;
-    const { content, ratings } = this.state;
+    const { content, ratings, maxRating } = this.state;
 
     const submitText = id ? 'Update' : 'Create';
 
     let ratingsArray = [];
-    for (var i = 1; i <= this.state.maxRating; i++) {
+    for (var i = 1; i <= maxRating; i++) {
       ratingsArray.push(
         <ButtonRating
         key={i}
         size={25}
-        name={i <= this.state.ratings ? 'star' : 'staro'}
-        color={i <= this.state.ratings ? 'orange' : 'black'}
+        name={i <= ratings ? 'star' : 'staro'}
+        color={i <= ratings ? 'orange' : 'black'}
         onPress={this.updateRatings.bind(this, i)}
         />
       )
