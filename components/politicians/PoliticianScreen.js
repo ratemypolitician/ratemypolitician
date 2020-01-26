@@ -13,6 +13,8 @@ import PoliticianCard from './PoliticianCard';
 import profiles from './../../data/profiles.json';
 import { AntDesign } from '@expo/vector-icons';
 import { styles } from './Styles';
+import STORE from './../../store';
+import { firebase } from './../../firebaseConfig';
 
 export default class PoliticianScreen extends React.Component {
   static navigationOptions = {
@@ -24,22 +26,17 @@ export default class PoliticianScreen extends React.Component {
   state = {
     loading: false,
     error: false,
-    exists: false,
     isSearch: false,
 
     keywords: '',
-    profiles: [],
-    filteredProfiles: [],
+    profiles: profiles,
+    filteredProfiles: profiles,
   }
 
-  componentDidMount(){
-    if (profiles.length > 0) {
-      this.setState({
-        exists: true,
-        profiles,
-        filteredProfiles: profiles
-      })
-    }
+  async componentDidMount(){
+    await firebase.auth().onAuthStateChanged( currentUser => {
+      STORE.currentUser = currentUser;
+    })
   }
 
   handleSearchPress = () => {
@@ -100,7 +97,6 @@ export default class PoliticianScreen extends React.Component {
     const {
       loading,
       error,
-      exists,
       isSearch,
 
       keywords,
@@ -132,7 +128,7 @@ export default class PoliticianScreen extends React.Component {
 
       {!loading && (
         <View style={styles.container}>
-        {exists && (
+        {profiles.length > 0 && (
           <View>
 
           {isSearch && (
@@ -178,7 +174,7 @@ export default class PoliticianScreen extends React.Component {
           </View>
         )}
 
-        {!exists && (
+        {profiles.length === 0 && (
           <View style={styles.staticViewContainer}>
           <Text>No items yet.</Text>
           </View>

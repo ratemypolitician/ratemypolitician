@@ -31,21 +31,22 @@ export const styles = StyleSheet.create({
         maxWidth: 300,
         textAlign: 'center',
       },
-    textInput: {
+    button: {
       height: 50,
-      minWidth: 320,
       margin: 10,
       paddingHorizontal: 20,
       borderRadius: 20,
-    },
-    button: {
       justifyContent: 'center',
-      backgroundColor: '#c0392b',
     },
     buttonText: {
       textAlign: 'center',
       fontSize: 15,
       fontWeight: 'bold',
       color: 'white',
+    },
+    badge: {
+      marginVertical: 5,
+      borderRadius: 20,
+      paddingHorizontal: 20,
     }
   })

@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  Alert,
 } from 'react-native';
 
 import ReviewButton from './ReviewButton';
@@ -19,7 +20,9 @@ export default class ToggleableReviewForm extends React.Component {
     
     if (currentUser === null) {
       this.props.navigation.navigate('SignInUp');
-    } else if (currentUser !== null) {
+    } else if (currentUser.emailVerified === false) {
+      Alert.alert('Please verify your account!');
+    } else if (currentUser.emailVerified === true) {
       this.setState({ isOpen: true });
     }
   }
