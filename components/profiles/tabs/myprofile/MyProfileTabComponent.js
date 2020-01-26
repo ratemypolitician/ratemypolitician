@@ -4,22 +4,30 @@ import {
   View,
   Image,
   Text, 
-  TouchableOpacity 
+  TouchableOpacity, 
+  Alert
 } from 'react-native';
 
 import STORE from './../../../../store';
 import { styles } from './Styles';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { firebase } from './../../../../firebaseConfig';
 
 export default class MyProfileTabComponent extends React.Component {
   handleSignOutPress = async () => {
-    STORE.currentUser = null;
+    try {
+      await firebase.auth().signOut().then( () => {
+        STORE.currentUser = null;
 
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
-    });
-    this.props.navigation.dispatch(resetAction);
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+        });
+        this.props.navigation.dispatch(resetAction);
+      })
+    } catch (error) {
+      Alert.alert(error.toString())
+    }
   }
   
   render() {

@@ -1,15 +1,18 @@
 import React from 'react';
 import {
   View,
+  KeyboardAvoidingView,
   Text,
   TextInput,
   Image,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import STORE from './../../store';
 import { styles } from './Styles';
-import { currentUser } from './../../data/currentUser';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { firebase } from './../../firebaseConfig';
 
 export default class SignInUp extends React.Component {
   static navigationOptions = {
@@ -18,6 +21,9 @@ export default class SignInUp extends React.Component {
 
   state = {
     toggleSignInUp: true,
+    email: '',
+    password: '',
+    loading: false,
   }
 
   handleToggle = () => {
@@ -25,26 +31,67 @@ export default class SignInUp extends React.Component {
     this.setState({ toggleSignInUp: !toggleSignInUp })
   }
 
-  handleSignInPress = () => {
-    STORE.currentUser = currentUser;
-
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
-    });
-
-    this.props.navigation.dispatch(resetAction);
+  handleChangeTextEmail = (email) => {
+    this.setState({ email })
   }
 
-  handleSignUpPress = () => {
+  handleChangeTextPassword = (password) => {
+    this.setState({ password })
+  }
 
+  handleSignInPress = async (email, password) => {
+    if (!email) return;
+    if (!password) return;
+
+    this.setState({ loading: true })
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+        .then( currentUser => {
+          STORE.currentUser = currentUser;
+
+          const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+          });
+          this.setState({ loading: false });
+          this.props.navigation.dispatch(resetAction);
+        })
+        .catch( error => {
+          this.setState({ loading: false });
+          Alert.alert(error.toString());
+        })
+  }
+
+  handleSignUpPress = async (email, password) => {
+    if (!email) return;
+    if (!password) return;
+
+    this.setState({ loading: true });
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then( currentUser => {
+        STORE.currentUser = currentUser;
+
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+        });
+        this.setState({ loading: false });
+        this.props.navigation.dispatch(resetAction);
+      })
+      .catch( error => {
+        this.setState({ loading: false });
+        Alert.alert(error.toString());
+      })
   }
 
   render() {
-    const { toggleSignInUp } = this.state;
+    const { toggleSignInUp, email, password, loading } = this.state;
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView 
+        style={styles.container}
+        behavior={'padding'}
+        enabled
+      >
 
         <View style={styles.logoContainer}>
           <Image source={require('./../../assets/icon.png')} style={{ width: 50, height: 50 }}/>
@@ -55,32 +102,49 @@ export default class SignInUp extends React.Component {
         <View style={styles.formContainer}>
           <TextInput
             style={[styles.textInput, { backgroundColor: 'whitesmoke' }]}
-            placeholder="Email or username"
-            clearButtonMode="always"
+            autoCompleteType={'email'}
+            textContentType={'emailAddress'}
+            placeholder={'Email'}
+            underlineColorAndroid={'transparent'}
+            clearButtonMode={'always'}
+            value={email}
+            onChangeText={this.handleChangeTextEmail}
           />
 
           <TextInput
             style={[styles.textInput, { backgroundColor: 'whitesmoke' }]}
-            placeholder="Password"
-            clearButtonMode="always"
+            autoCompleteType={'password'}
+            textContentType={'password'}
+            secureTextEntry={true}
+            placeholder={'Password'}
+            underlineColorAndroid={'transparent'}
+            clearButtonMode={'always'}
+            value={password}
+            onChangeText={this.handleChangeTextPassword}
           />
 
-          {toggleSignInUp && (
+          {toggleSignInUp && !loading && (
             <TouchableOpacity
-              onPress={this.handleSignInPress}
-              style={[styles.textInput, styles.button ]}
+              onPress={() => this.handleSignInPress(email, password)}
+              style={[styles.textInput, styles.button, { backgroundColor: '#27ae60' } ]}
             >
               <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
           )}
+          {toggleSignInUp && loading && (
+            <ActivityIndicator size={'large'} />
+          )}
 
           {!toggleSignInUp && (
             <TouchableOpacity
-              onPress={this.handleSignUpPress}
-              style={[styles.textInput, styles.button ]}
+              onPress={() => this.handleSignUpPress(email, password)}
+              style={[styles.textInput, styles.button, { backgroundColor: '#3498db' } ]}
             >
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
+          )}
+          {!toggleSignInUp && loading && (
+            <ActivityIndicator size={'large'} />
           )}
 
         </View>
@@ -108,7 +172,7 @@ export default class SignInUp extends React.Component {
           </View>
         )}
 
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

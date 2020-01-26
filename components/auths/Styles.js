@@ -46,7 +46,6 @@ export const styles = StyleSheet.create({
   },
   button: {
     justifyContent: 'center',
-    backgroundColor: '#27ae60',
   },
   buttonText: {
     textAlign: 'center',
