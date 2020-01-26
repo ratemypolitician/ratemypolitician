@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
 
 import EditableReview from './../../../politicians/tabs/reviews/EditableReview';
 import {fakerReviews} from './../../../../data/fakerReviews';
@@ -62,6 +62,11 @@ export default class MyReviewsTabComponent extends React.Component {
             data={reviews}
             renderItem={this.renderItem}
           />
+        )}
+        {reviews.length === 0 && (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text>No reviews yet.</Text>
+          </View>
         )}
       </View>
     );
