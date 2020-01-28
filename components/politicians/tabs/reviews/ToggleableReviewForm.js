@@ -19,9 +19,23 @@ export default class ToggleableReviewForm extends React.Component {
     const currentUser = STORE.currentUser;
     
     if (currentUser === null) {
-      this.props.navigation.navigate('SignInUp');
+      Alert.alert(
+        'Sign in needed',
+        'Please sign in before you can submit review',
+        [
+          {text: 'OK', onPress: () => this.props.navigation.navigate('SignInUp')},
+        ],
+        {cancelable: false},
+      );
     } else if (currentUser.emailVerified === false) {
-      Alert.alert('Please verify your account!');
+      Alert.alert(
+        'Verification needed',
+        'Please verify your account!',
+        [
+          {text: 'OK', onPress: () => this.props.navigation.navigate('Profile')},
+        ],
+        {cancelable: false},
+      );
     } else if (currentUser.emailVerified === true) {
       this.setState({ isOpen: true });
     }

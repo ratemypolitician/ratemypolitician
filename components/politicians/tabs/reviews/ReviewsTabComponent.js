@@ -104,7 +104,7 @@ export default class ReviewsTabComponent extends React.Component {
   renderItem = ({ item }) => {
     const {
       username,
-      userImage,
+      photoURL,
       created_at,
       content,
       ratings,
@@ -119,7 +119,7 @@ export default class ReviewsTabComponent extends React.Component {
         ratings={ratings}
         userId={userId}
         username={username}
-        userImage={userImage}
+        photoURL={photoURL}
         created_at={created_at}
         onRemovePress={this.handleRemovePress}
         onFormSubmit={this.handleFormSubmit}

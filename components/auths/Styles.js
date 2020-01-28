@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import Constants from 'expo-constants';
@@ -27,7 +26,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

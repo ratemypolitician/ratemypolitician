@@ -7,33 +7,49 @@ import {
   TouchableOpacity, 
   Alert
 } from 'react-native';
-
 import STORE from './../../../../store';
 import { styles } from './Styles';
-import { StackActions, NavigationActions } from 'react-navigation';
 import { firebase } from './../../../../firebaseConfig';
 
 const anon = require('./../../../../assets/users/anon.png');
 
 export default class MyProfileTabComponent extends React.Component {
-  handleSignOutPress = async () => {
-    try {
-      await firebase.auth().signOut().then( () => {
-        STORE.currentUser = null;
+  state = {
+    currentUser: STORE.currentUser
+  }
 
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
-        });
-        this.props.navigation.dispatch(resetAction);
+  async componentDidMount(){
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      this.setState({
+        currentUser: STORE.currentUser,
+      });
+    });
+    console.log(STORE.currentUser);
+    
+  }
+
+  componentWillUnmount(){
+    // remove listener
+    this.focusListener.remove();
+  }
+
+  sendVerificationEmail = () => {
+    firebase.auth().currentUser.sendEmailVerification()
+      .then( () => {
+        Alert.alert('Verification email sent. Please check your email.')
       })
-    } catch (error) {
-      Alert.alert(error.toString())
-    }
+      .catch( error => {
+        Alert.alert(error.toString())
+      })
+  }
+
+  handleSettingsPress = () => {
+    this.props.navigation.navigate('SettingsScreen');
   }
   
   render() {
-    const currentUser = STORE.currentUser;
+    const { currentUser } = this.state;
 
     return (
       <ScrollView 
@@ -41,9 +57,12 @@ export default class MyProfileTabComponent extends React.Component {
       style={styles.container}
       >
         <View style={styles.avatarSection}>
-          <Image source={currentUser.userImage || anon} style={styles.avatar} />
+          <Image 
+          source={currentUser.photoURL ? { uri: currentUser.photoURL } : anon} 
+          style={styles.avatar} 
+          />
           <Text style={styles.profileName}>
-            {currentUser.name}
+            {currentUser.displayName}
           </Text>
           <Text style={styles.status}>{currentUser.email}</Text>
           {currentUser.emailVerified && (
@@ -56,19 +75,22 @@ export default class MyProfileTabComponent extends React.Component {
               <View style={[styles.badge, { backgroundColor: 'orange'}]}>
                 <Text style={{ color: 'white' }}>Account Not Verified</Text>
               </View>
-              <TouchableOpacity style={[styles.button, { borderWidth: 3 }]} onPress={ () => Alert.alert('Verification email sent')}>
-                <Text style={[styles.buttonText, {color: 'black'}]}>Send verification email</Text>
+              <TouchableOpacity 
+              style={[styles.button, { borderWidth: 3 }]} 
+              onPress={this.sendVerificationEmail}>
+                <Text style={[styles.buttonText, {color: 'black'}]}>Resend verification email</Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
 
         <TouchableOpacity
-          onPress={this.handleSignOutPress}
-          style={[styles.button, {backgroundColor: '#c0392b'} ]}
+          onPress={this.handleSettingsPress}
+          style={[styles.button, { borderWidth: 3 }]}
         >
-          <Text style={styles.buttonText}>Sign Out</Text>
+          <Text style={[styles.buttonText, { color: 'black' }]}>Settings</Text>
         </TouchableOpacity>
+
       </ScrollView>
     );
   }

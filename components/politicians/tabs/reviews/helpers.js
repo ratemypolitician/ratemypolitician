@@ -47,7 +47,7 @@ export const newReview = (attrs = {}) => {
     ratings: attrs.ratings || 1,
     username: STORE.currentUser.name,
     userId: STORE.currentUser.id,
-    userImage: STORE.currentUser.userImage,
+    photoURL: STORE.currentUser.photoURL,
     created_at: new Date().getTime(),
   }
   return review;

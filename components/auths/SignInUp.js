@@ -21,6 +21,7 @@ export default class SignInUp extends React.Component {
 
   state = {
     toggleSignInUp: true,
+    username: '',
     email: '',
     password: '',
     loading: false,
@@ -31,13 +32,9 @@ export default class SignInUp extends React.Component {
     this.setState({ toggleSignInUp: !toggleSignInUp })
   }
 
-  handleChangeTextEmail = (email) => {
-    this.setState({ email })
-  }
-
-  handleChangeTextPassword = (password) => {
-    this.setState({ password })
-  }
+  handleChangeTextUsername = (username) => this.setState({ username })
+  handleChangeTextEmail = (email) => this.setState({ email })
+  handleChangeTextPassword = (password) => this.setState({ password })
 
   handleSignInPress = async (email, password) => {
     if (!email) return;
@@ -50,7 +47,9 @@ export default class SignInUp extends React.Component {
 
           const resetAction = StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+            actions: [
+              NavigationActions.navigate({ routeName: 'TabNavigator' }),
+            ],
           });
           this.setState({ loading: false });
           this.props.navigation.dispatch(resetAction);
@@ -61,18 +60,30 @@ export default class SignInUp extends React.Component {
         })
   }
 
-  handleSignUpPress = async (email, password) => {
+  handleSignUpPress = async (username, email, password) => {
+    if (!username) return;
     if (!email) return;
     if (!password) return;
 
     this.setState({ loading: true });
     await firebase.auth().createUserWithEmailAndPassword(email, password)
       .then( currentUser => {
+        // send verification email
+        currentUser.user.sendEmailVerification();
+
+        // update display name
+        currentUser.user.updateProfile({
+          displayName: username,
+        })
+
+        // store current user to local global state
         STORE.currentUser = currentUser;
 
         const resetAction = StackActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+          actions: [
+            NavigationActions.navigate({ routeName: 'TabNavigator' }),
+          ],
         });
         this.setState({ loading: false });
         this.props.navigation.dispatch(resetAction);
@@ -84,13 +95,17 @@ export default class SignInUp extends React.Component {
   }
 
   render() {
-    const { toggleSignInUp, email, password, loading } = this.state;
+    const { 
+      toggleSignInUp, 
+      username,
+      email, 
+      password, 
+      loading 
+    } = this.state;
 
     return (
-      <KeyboardAvoidingView 
+      <View 
         style={styles.container}
-        behavior={'padding'}
-        enabled
       >
 
         <View style={styles.logoContainer}>
@@ -99,7 +114,20 @@ export default class SignInUp extends React.Component {
           <Text style={styles.subheader}>PRU 14 Malaysian Politician</Text>
         </View>
 
-        <View style={styles.formContainer}>
+        <KeyboardAvoidingView style={styles.formContainer} behavior={'padding'}>
+        {!toggleSignInUp && (
+          <TextInput
+            style={[styles.textInput, { backgroundColor: 'whitesmoke' }]}
+            autoCompleteType={'username'}
+            textContentType={'username'}
+            placeholder={'Username'}
+            underlineColorAndroid={'transparent'}
+            clearButtonMode={'always'}
+            value={username}
+            onChangeText={this.handleChangeTextUsername}
+          />
+        )}
+
           <TextInput
             style={[styles.textInput, { backgroundColor: 'whitesmoke' }]}
             autoCompleteType={'email'}
@@ -137,7 +165,7 @@ export default class SignInUp extends React.Component {
 
           {!toggleSignInUp && (
             <TouchableOpacity
-              onPress={() => this.handleSignUpPress(email, password)}
+              onPress={() => this.handleSignUpPress(username, email, password)}
               style={[styles.textInput, styles.button, { backgroundColor: '#3498db' } ]}
             >
               <Text style={styles.buttonText}>Sign Up</Text>
@@ -147,7 +175,7 @@ export default class SignInUp extends React.Component {
             <ActivityIndicator size={'large'} />
           )}
 
-        </View>
+        </KeyboardAvoidingView>
 
 
         {toggleSignInUp && (
@@ -172,7 +200,7 @@ export default class SignInUp extends React.Component {
           </View>
         )}
 
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

@@ -28,7 +28,7 @@ export default class MyReviewsTabComponent extends React.Component {
       created_at,
       userId,
       username,
-      userImage,
+      photoURL,
       content,
       ratings,
       id,
@@ -39,7 +39,7 @@ export default class MyReviewsTabComponent extends React.Component {
         id={id}
         userId={userId}
         username={username}
-        userImage={userImage}
+        photoURL={photoURL}
 
         content={content}
         ratings={ratings}

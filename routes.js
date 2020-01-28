@@ -23,6 +23,7 @@ import ImageModal from './components/politicians/tabs/achievements/ImageModal';
 
 // import profile
 import ProfileTabs from './components/profiles/tabs/ProfileTabs';
+import SettingsScreen from './components/profiles/tabs/myprofile/SettingsScreen';
 
 import { tabBarOptionsConfig } from './components/shared/tabBarOptionsConfig';
 
@@ -47,6 +48,7 @@ const PoliticianStacks = createStackNavigator(
 const ProfileStacks = createStackNavigator(
   {
     ProfileTabs,
+    SettingsScreen,
   },
   {
     initialRouteName: 'ProfileTabs',

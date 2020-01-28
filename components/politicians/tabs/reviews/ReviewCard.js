@@ -9,8 +9,9 @@ import ButtonAction from './ButtonAction';
 import Ratings from './../../Ratings';
 import { formatDateTime } from './../../../shared/formatDateTime';
 import { styles } from './Styles';
-
 import STORE from './../../../../store';
+
+const anon = require('./../../../../assets/users/anon.png')
 
 export default class ReviewCard extends React.Component {
 
@@ -21,7 +22,7 @@ export default class ReviewCard extends React.Component {
 
   render() {
     const {
-      userImage,
+      photoURL,
       username,
       userId,
       created_at,
@@ -32,7 +33,7 @@ export default class ReviewCard extends React.Component {
 
     return (
       <View style={styles.cardContainer}>
-          <Image source={userImage} style={styles.avatar} />
+          <Image source={photoURL || anon} style={styles.avatar} />
           <View style={styles.contentContainer}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
               <View style={{ flex: 5, flexDirection: 'column' }}>

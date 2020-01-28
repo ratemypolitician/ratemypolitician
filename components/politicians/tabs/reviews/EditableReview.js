@@ -30,7 +30,7 @@ export default class EditableReview extends PureComponent {
       content,
       ratings,
       username,
-      userImage,
+      photoURL,
       created_at,
       userId,
       onRemovePress,
@@ -55,7 +55,7 @@ export default class EditableReview extends PureComponent {
         ratings={ratings}
         userId={userId}
         username={username}
-        userImage={userImage}
+        photoURL={photoURL}
         created_at={created_at}
         onRemovePress={onRemovePress}
         onEditPress={this.handleEditPress}

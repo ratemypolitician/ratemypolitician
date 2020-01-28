@@ -9,7 +9,7 @@ export const fakerReviews = [
     id: uuidv4(),
     userId: 1,
     username: 'Mohammad Alimudin',
-    userImage: jedi,
+    photoURL: jedi,
     content: 'Lorem ipsum dolor sit ametLorem ipsum dolor\
     sit ametLorem ipsum dolor sit ametLorem ipsum dolor\
     sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit\
@@ -22,7 +22,7 @@ export const fakerReviews = [
     id: uuidv4(),
     userId: 2,
     username: 'Abu',
-    userImage: nerd,
+    photoURL: nerd,
     content: 'Lorem ipsum dolor sit ametLorem ipsum dolor\
     sit ametLorem ipsum dolor sit ametLorem ipsum dolor\
     sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit\
@@ -35,7 +35,7 @@ export const fakerReviews = [
     id: uuidv4(),
     userId: 3,
     username: 'Ahmad',
-    userImage: boss,
+    photoURL: boss,
     content: 'Lorem ipsum dolor sit ametLorem ipsum dolor\
     sit ametLorem ipsum dolor sit ametLorem ipsum dolor\
     sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit\
