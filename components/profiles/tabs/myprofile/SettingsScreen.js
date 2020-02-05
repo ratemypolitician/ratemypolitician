@@ -81,25 +81,36 @@ export default class SettingsScreen extends React.Component {
 
     handleSubmitPress = async () => {
       const { displayName, photoURL } = this.state;
-      
-      const image = await fetch(photoURL);
-      const imageBlob = await image.blob();
 
       const uid = STORE.currentUser.uid;
       const storageRef = firebase.storage().ref('users/' + uid + '.png');
 
       this.setState({ loading: true });
-      await storageRef.put(imageBlob).then( snapshot => {
-        snapshot.ref.getDownloadURL().then( newPhotoURL => {
-          firebase.auth().currentUser.updateProfile({
-            displayName,
-            photoURL: newPhotoURL,
-          }).then( () => {
-            this.setState({ loading: false });
-            this.props.navigation.goBack();
+      
+      if (photoURL.length > 0) {
+        // image present
+        const image = await fetch(photoURL);
+        const imageBlob = await image.blob();
+
+        await storageRef.put(imageBlob).then( snapshot => {
+          snapshot.ref.getDownloadURL().then( newPhotoURL => {
+            firebase.auth().currentUser.updateProfile({
+              displayName,
+              photoURL: newPhotoURL,
+            })
           })
         })
-      })
+      } else {
+        await storageRef.delete().then( () => {
+          firebase.auth().currentUser.updateProfile({
+            displayName,
+            photoURL,
+          })
+        })
+      }
+
+      this.setState({ loading: false });
+      this.props.navigation.goBack();
     }
 
   render() {
