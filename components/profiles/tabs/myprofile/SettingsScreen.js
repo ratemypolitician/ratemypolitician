@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { firebase } from './../../../../firebaseConfig';
 import STORE from './../../../../store';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { styles } from './Styles';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -57,6 +58,22 @@ export default class SettingsScreen extends React.Component {
         });
       }
     };
+
+    handleSignOutPress = async () => {
+      try {
+        await firebase.auth().signOut().then( () => {
+          STORE.currentUser = null;
+
+          const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
+          });
+          this.props.navigation.dispatch(resetAction);
+        })
+      } catch (error) {
+        Alert.alert(error.toString())
+      }
+    }
 
     handleChangeName = (displayName) => this.setState({ displayName });
 
@@ -123,6 +140,13 @@ export default class SettingsScreen extends React.Component {
             <Text style={styles.buttonText}>Update Profile</Text>
           </TouchableOpacity>
         )}
+
+<TouchableOpacity
+          onPress={this.handleSignOutPress}
+          style={[styles.button, {backgroundColor: '#e74c3c'} ]}
+          >
+          <Text style={styles.buttonText}>Sign Out</Text>
+          </TouchableOpacity>
         
     </ScrollView>
     );

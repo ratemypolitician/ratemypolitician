@@ -25,8 +25,6 @@ export default class MyProfileTabComponent extends React.Component {
         currentUser: STORE.currentUser,
       });
     });
-    console.log(STORE.currentUser);
-    
   }
 
   componentWillUnmount(){
@@ -42,10 +40,6 @@ export default class MyProfileTabComponent extends React.Component {
       .catch( error => {
         Alert.alert(error.toString())
       })
-  }
-
-  handleSettingsPress = () => {
-    this.props.navigation.navigate('SettingsScreen');
   }
   
   render() {
@@ -83,13 +77,6 @@ export default class MyProfileTabComponent extends React.Component {
             </View>
           )}
         </View>
-
-        <TouchableOpacity
-          onPress={this.handleSettingsPress}
-          style={[styles.button, { borderWidth: 3 }]}
-        >
-          <Text style={[styles.buttonText, { color: 'black' }]}>Settings</Text>
-        </TouchableOpacity>
 
       </ScrollView>
     );

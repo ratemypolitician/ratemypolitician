@@ -1,12 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
 import MyProfileTabComponent from './myprofile/MyProfileTabComponent';
 import MyReviewsTabComponent from './myreviews/MyReviewsTabComponent';
 import { AntDesign } from '@expo/vector-icons';
-import { StackActions, NavigationActions } from 'react-navigation';
-import { firebase } from './../../../firebaseConfig';
-import STORE from './../../../store';
 
 const ProfileTabs = createMaterialTopTabNavigator(
   {
@@ -30,31 +27,19 @@ const ProfileTabs = createMaterialTopTabNavigator(
 );
 
 ProfileTabs.navigationOptions = ({ navigation }) => {
-  
-  handleSignOutPress = async () => {
-    try {
-      await firebase.auth().signOut().then( () => {
-        STORE.currentUser = null;
 
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'TabNavigator' })],
-        });
-        navigation.dispatch(resetAction);
-      })
-    } catch (error) {
-      Alert.alert(error.toString())
-    }
+  handleSettingsPress = () => {
+    navigation.navigate('SettingsScreen');
   }
 
   return {
     title: 'Profile',
     headerRight: (
       <TouchableOpacity
-      onPress={ this.handleSignOutPress }
+      onPress={ this.handleSettingsPress }
       style={{ paddingRight: 20 }}
       >
-        <AntDesign name={'logout'} size={20} />
+        <AntDesign name={'setting'} size={25} />
       </TouchableOpacity>
     )
   }
