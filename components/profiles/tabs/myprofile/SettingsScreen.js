@@ -22,7 +22,7 @@ const anon = require('./../../../../assets/users/anon.png');
 
 export default class SettingsScreen extends React.Component {
     static navigationOptions = {
-        title: 'My Profile Settings'
+        title: 'Settings'
     }
 
     state = {
