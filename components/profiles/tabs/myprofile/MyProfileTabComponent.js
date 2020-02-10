@@ -55,9 +55,11 @@ export default class MyProfileTabComponent extends React.Component {
           source={currentUser.photoURL ? { uri: currentUser.photoURL } : anon} 
           style={styles.avatar} 
           />
+          
           <Text style={styles.profileName}>
             {currentUser.displayName}
           </Text>
+          
           <Text style={styles.status}>{currentUser.email}</Text>
           {currentUser.emailVerified && (
             <View style={[styles.badge, { backgroundColor: '#27ae60'}]}>
