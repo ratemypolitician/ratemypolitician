@@ -7,7 +7,7 @@ import {
 
 import ButtonAction from './ButtonAction';
 import Ratings from './../../Ratings';
-import { formatDateTime } from './../../../shared/formatDateTime';
+import { formatDateTime } from './helpers';
 import { styles } from './Styles';
 import STORE from './../../../../store';
 
@@ -33,18 +33,16 @@ export default class ReviewCard extends React.Component {
 
     return (
       <View style={styles.cardContainer}>
-          <Image source={photoURL || anon} style={styles.avatar} />
+          <Image source={photoURL ? { uri: photoURL} : anon} style={styles.avatar} />
           <View style={styles.contentContainer}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
               <View style={{ flex: 5, flexDirection: 'column' }}>
                 <Text style={styles.cardNameText}>{username}</Text>
-                <Text style={styles.cardTimeText}>Posted {formatDateTime(created_at)}</Text>
+                <Text style={styles.cardTimeText}>Posted on {formatDateTime(created_at)}</Text>
               </View>
-
-              {STORE.currentUser !== null && (STORE.currentUser.id === userId) && (
+              {STORE.currentUser !== null && (STORE.currentUser.uid === userId) && (
                 <ButtonAction onEdit={onEditPress} onRemove={this.handleRemovePress} />
               )}
-
             </View>
 
             <Text style={styles.reviewContent}>{content}</Text>

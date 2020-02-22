@@ -1,5 +1,6 @@
 import uuidv4 from 'uuid/v4';
 import STORE from './../../../../store';
+import firebase from 'firebase/app';
 
 export const ratingCalculator = (fetchResult) => {
   if (fetchResult.length === 0) {
@@ -40,15 +41,20 @@ export const ratingCalculator = (fetchResult) => {
 
 }
 
-export const newReview = (attrs = {}) => {
+export const createReview = (attrs = {}) => {
   const review = {
     id: uuidv4(),
+    userId: STORE.currentUser.uid,
+    username: STORE.currentUser.displayName || STORE.currentUser.email,
+    photoURL: STORE.currentUser.photoURL,
     content: attrs.content,
     ratings: attrs.ratings || 1,
-    username: STORE.currentUser.name,
-    userId: STORE.currentUser.id,
-    photoURL: STORE.currentUser.photoURL,
-    created_at: new Date().getTime(),
+    politicianId: attrs.politicianId,
+    created_at: firebase.firestore.Timestamp.now(),
   }
   return review;
+}
+
+export const formatDateTime = (timestamp) => {
+  return timestamp.toDate().toString()
 }

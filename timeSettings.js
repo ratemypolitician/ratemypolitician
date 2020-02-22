@@ -38,7 +38,7 @@ export default function timeSettings(){
       };
 
       global.clearTimeout = id => {
-          if (typeof id === 'string' && id.startWith('_lt_')) {
+          if (typeof id === 'string' && id.startsWith('_lt_')) {
               _clearTimeout(timerFix[id]);
               delete timerFix[id];
               return;

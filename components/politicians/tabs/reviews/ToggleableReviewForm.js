@@ -11,6 +11,7 @@ import ReviewForm from './ReviewForm';
 import STORE from './../../../../store';
 
 export default class ToggleableReviewForm extends React.Component {
+
   state = {
     isOpen: false,
   }

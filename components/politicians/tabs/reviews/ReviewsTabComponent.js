@@ -6,39 +6,68 @@ import {
   ActivityIndicator,
   Button,
   FlatList,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import ToggleableReviewForm from './ToggleableReviewForm';
 import EditableReview from './EditableReview';
-import { ratingCalculator, newReview } from './helpers';
-import { fakerReviews } from './../../../../data/fakerReviews';
+import { ratingCalculator, createReview } from './helpers';
 import { styles } from './Styles';
+import { db } from './../../../../firebaseConfig';
 
 export default class ReviewsTabComponent extends React.Component {
   static router = ToggleableReviewForm.router;
 
-  filtered = () => {
-    const object = this.props.navigation.getParam('object');
-    return fakerReviews.filter( review => review.politicianId === object.id);
-  }
-
   state = {
     isLoading: false,
     error: false,
-    overallRating: ratingCalculator(this.filtered())[0],
-    reviews: this.filtered(),
+    overallRating: Number(0).toFixed(1),
+    reviews: [],
     starWidth: {
-      five: ratingCalculator(this.filtered())[5],
-      four: ratingCalculator(this.filtered())[4],
-      three: ratingCalculator(this.filtered())[3],
-      two: ratingCalculator(this.filtered())[2],
-      one: ratingCalculator(this.filtered())[1],
+      five: 2,
+      four: 2,
+      three: 2,
+      two: 2,
+      one: 2,
     },
   }
 
+  async componentDidMount(){
+    const object = this.props.navigation.getParam('object');
+
+    let testRef = db.collection('reviews');
+    this.setState({ isLoading: true });
+    await testRef.orderBy('created_at', 'desc').where('politicianId', '==', object.id).get()
+    .then( snapshot => {
+      let reviewArr = [];
+      snapshot.forEach( doc => {
+        reviewArr.push(doc.data())
+      });
+
+      const calculatedRating = ratingCalculator(reviewArr);
+      this.setState({ 
+        reviews: reviewArr,
+        overallRating: calculatedRating[0],
+        starWidth: {
+          five: calculatedRating[5],
+          four: calculatedRating[4],
+          three: calculatedRating[3],
+          two: calculatedRating[2],
+          one: calculatedRating[1],
+        }
+      });
+    })
+    .catch( error => console.log(error));
+    this.setState({ isLoading: false });
+  }
+
+  // new form submit
   handleCreateFormSubmit = review => {
+    const object = this.props.navigation.getParam('object');
+
     const { reviews } = this.state;
-    const latestReviews = [newReview(review), ...reviews];
+    const newReview = createReview({...review, politicianId: object.id });
+    const latestReviews = [newReview, ...reviews];
     const ratingArray = ratingCalculator(latestReviews);
 
     this.setState({
@@ -52,23 +81,28 @@ export default class ReviewsTabComponent extends React.Component {
       },
       overallRating: ratingArray[0],
     })
+
+    // upload to firestore
+    db.collection('reviews').doc(newReview.id).set(newReview, { merge: true });
   }
 
+  // update review form
   handleFormSubmit = attrs => {
     const { reviews } = this.state;
     const mapped = reviews.map( (review) => {
       if (review.id === attrs.id) {
         const { content, ratings } = attrs;
-        return {
-          ...review,
-          content,
-          ratings,
-        }
+        const updatedReview = { ...review, content, ratings };
+        
+        // update to firestore
+        db.collection('reviews').doc(review.id).update(updatedReview)
+        
+        return updatedReview;
       }
       return review;
     });
-    const ratingArray = ratingCalculator(mapped);
 
+    const ratingArray = ratingCalculator(mapped);
     this.setState({
       reviews: mapped,
       starWidth: {
@@ -85,6 +119,9 @@ export default class ReviewsTabComponent extends React.Component {
   handleRemovePress = (reviewId) => {
     const { reviews } = this.state;
     const filtered = reviews.filter( review => review.id !== reviewId );
+
+    // delete on firestore
+    db.collection('reviews').doc(reviewId).delete();
     
     const ratingArray = ratingCalculator(filtered);
     
@@ -159,6 +196,11 @@ export default class ReviewsTabComponent extends React.Component {
         )}
 
         {!error && (
+          <KeyboardAvoidingView 
+          behavior={'position'} 
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={50}
+          >
           <ScrollView>
 
             <Text style={styles.textReview}>{reviews.length} Reviews</Text>
@@ -197,11 +239,14 @@ export default class ReviewsTabComponent extends React.Component {
               </View>
             </View>
 
+            
             <ToggleableReviewForm
               onFormSubmit={this.handleCreateFormSubmit}
               navigation={this.props.navigation}
             />
-
+            
+            {/* {console.log(reviews)
+            } */}
             {reviews.length > 0 && (
               <FlatList
                 showsVerticalScrollIndicator={false}
@@ -219,6 +264,7 @@ export default class ReviewsTabComponent extends React.Component {
             )}
             
           </ScrollView>
+          </KeyboardAvoidingView>
         )}
         </View>
       )}
