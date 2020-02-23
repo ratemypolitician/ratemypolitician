@@ -17,6 +17,8 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import { AntDesign } from '@expo/vector-icons';
 
+import Sharp from 'sharp';
+
 const anon = require('./../../../../assets/users/anon.png');
 
 export default class SettingsScreen extends React.Component {
@@ -109,10 +111,6 @@ export default class SettingsScreen extends React.Component {
 
       this.setState({ loading: true });
 
-      console.log(STORE.currentUser.photoURL);
-      console.log(photoURL);
-      
-
       if (displayName) {
         // name present
         console.log('name present');
@@ -128,6 +126,9 @@ export default class SettingsScreen extends React.Component {
 
           if (STORE.currentUser.photoURL !== photoURL) {
             console.log('new photo');
+
+            // optimize photo
+            // const alteredImage = Sharp(photoURL).resize(50, 50)
             
             const image = await fetch(photoURL);
             const imageBlob = await image.blob();
