@@ -17,7 +17,7 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import { AntDesign } from '@expo/vector-icons';
 
-import Sharp from 'sharp';
+// import Sharp from 'sharp';
 
 const anon = require('./../../../../assets/users/anon.png');
 

@@ -9,7 +9,7 @@ import AboutTabComponent from './abouts/AboutTabComponent';
 const PoliticianTabs = createMaterialTopTabNavigator(
   {
     About: AboutTabComponent,
-    Achievements: AchievementTabComponent,
+    // Achievements: AchievementTabComponent,
     Reviews: ReviewsTabComponent,
   },
   {
@@ -23,7 +23,7 @@ const PoliticianTabs = createMaterialTopTabNavigator(
       showIcon: false,
       activeTintColor: 'black',
       inactiveTintColor: 'grey',
-      scrollEnabled: true,
+      scrollEnabled: false,
     },
     navigationOptions: {
       title: 'Politician Profile'

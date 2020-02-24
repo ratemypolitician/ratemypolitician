@@ -87,7 +87,7 @@ const DashboardStacks = createStackNavigator(
 const TabNavigator = createBottomTabNavigator(
   {
     Politician: PoliticianStacks,
-    Dashboard: DashboardStacks,
+    // Dashboard: DashboardStacks,
     Profile: AuthProfileStacks,
   },
   {
