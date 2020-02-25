@@ -150,7 +150,7 @@ export default class PoliticianScreen extends React.Component {
           {!isSearch && (
             <View style={styles.searchContainer}>
               <View>
-              <Text style={styles.searchHeader}>Rate Your Politician</Text>
+              <Text style={styles.searchHeader}>Rate MY Politician</Text>
               </View>
               <TouchableOpacity style={styles.searchIcon} onPress={this.handleSearchPress}>
                 <AntDesign name={'search1'} size={25} />
