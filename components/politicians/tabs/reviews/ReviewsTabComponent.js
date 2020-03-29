@@ -35,9 +35,9 @@ export default class ReviewsTabComponent extends React.Component {
   async componentDidMount(){
     const object = this.props.navigation.getParam('object');
 
-    let testRef = db.collection('reviews');
+    let reviewsRef = db.collection('reviews');
     this.setState({ isLoading: true });
-    await testRef.orderBy('created_at', 'desc').where('politicianId', '==', object.id).get()
+    await reviewsRef.orderBy('created_at', 'desc').where('politicianId', '==', object.id).get()
     .then( snapshot => {
       let reviewArr = [];
       snapshot.forEach( doc => {
@@ -245,8 +245,6 @@ export default class ReviewsTabComponent extends React.Component {
               navigation={this.props.navigation}
             />
             
-            {/* {console.log(reviews)
-            } */}
             {reviews.length > 0 && (
               <FlatList
                 showsVerticalScrollIndicator={false}

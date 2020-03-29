@@ -71,10 +71,16 @@ export default class MyProfileTabComponent extends React.Component {
               <View style={[styles.badge, { backgroundColor: 'orange'}]}>
                 <Text style={{ color: 'white' }}>Account Not Verified</Text>
               </View>
+              
+              <View style={{ paddingVertical: 10 }}>
+                <Text style={{ textAlign: 'center' }}>We have sent you verification email.</Text>
+                <Text style={{ textAlign: 'center' }}>Please complete verification process.</Text>
+              </View>
+              
               <TouchableOpacity 
               style={[styles.button, { borderWidth: 3 }]} 
               onPress={this.sendVerificationEmail}>
-                <Text style={[styles.buttonText, {color: 'black'}]}>Resend verification email</Text>
+                <Text style={[styles.buttonText, {color: 'black'}]}>Re-send verification email</Text>
               </TouchableOpacity>
             </View>
           )}

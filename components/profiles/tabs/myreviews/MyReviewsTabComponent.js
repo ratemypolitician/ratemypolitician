@@ -1,26 +1,66 @@
 import React from 'react';
-import { StyleSheet, View, FlatList, Text } from 'react-native';
-
+import { 
+  View, 
+  ScrollView,
+  FlatList, 
+  Text,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
 import EditableReview from './../../../politicians/tabs/reviews/EditableReview';
-import {fakerReviews} from './../../../../data/fakerReviews';
 import STORE from './../../../../store';
+import { db } from './../../../../firebaseConfig';
+import { styles } from './Styles';
 
 export default class MyReviewsTabComponent extends React.Component {
   state = {
-    reviews: []
+    reviews: [],
+    isLoading: false,
+    refreshing: false,
+  }
+
+  getData = async () => {
+    const reviewsRef = db.collection('reviews');
+    this.setState({ isLoading: true });
+
+    await reviewsRef.orderBy('created_at', 'desc').where('userId', '==', STORE.currentUser.uid).get()
+    .then( snapshot => {
+      let reviewArr = []
+      snapshot.forEach( doc => {
+        reviewArr.push(doc.data())
+      })
+
+      this.setState({ reviews: reviewArr })
+    })
+    .catch( error => console.log(error))
+
+    this.setState({ isLoading: false })
   }
 
   componentDidMount(){
-    const reviews = fakerReviews.filter( review => review.userId === STORE.currentUser.id)
-    this.setState({ reviews });
+    this.getData()
   }
 
-  handleRemovePress = () => {
+  handleRemovePress = (reviewId) => {
+    const { reviews } = this.state;
 
+    const filtered = reviews.filter( review => review.id !== reviewId );
+    db.collection('reviews').doc(reviewId).delete();
+
+    this.setState({ reviews: filtered });
   }
 
-  handleFormSubmit = () => {
+  handleFormSubmit = (reviewId) => {
+    // const updatedReview = {
+    //   content,
+    //   ratings,
+    // }
 
+    // db.collection('reviews').doc(reviewId).update(updatedReview)
+  }
+
+  handleOnRefresh = () => {
+    this.getData()
   }
 
   renderItem = ({ item }) => {
@@ -52,30 +92,36 @@ export default class MyReviewsTabComponent extends React.Component {
   }
 
   render() {
-    const { reviews } = this.state;
+    const { reviews, isLoading, refreshing } = this.state;
 
     return (
-      <View style={styles.container}>
-        {reviews.length > 0 && (
+      <ScrollView 
+      contentContainerStyle={styles.container}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.handleOnRefresh} />}
+      >
+        {isLoading && (
+          <View style={styles.staticViewContainer}>
+            <ActivityIndicator size="large" />
+          </View>
+        )}
+
+        {!isLoading && reviews.length > 0 && (
           <FlatList 
             keyExtractor={ item => item.id.toString() }
             data={reviews}
             renderItem={this.renderItem}
           />
         )}
-        {reviews.length === 0 && (
+
+        {!isLoading && reviews.length === 0 && (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text>No reviews yet.</Text>
           </View>
         )}
-      </View>
+        <Text style={{}}>Pull down to refresh.</Text>
+      </ScrollView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'whitesmoke',
-  }
-})
+
